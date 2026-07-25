@@ -13,7 +13,6 @@ export const AuthProvider = ({ children }: any) => {
     try {
       setLoading(true)
       const { data } = await authClient.getSession()
-      console.log("data in context ", data)
       setUser(data?.user);
     } catch (error) {
       setUser(null);
