@@ -19,7 +19,7 @@ export default function LoginForm() {
         password: password as string,
       });
 
-      router.push("/private");
+      router.push("/");
     } catch (error) {
       console.log(error);
     }
