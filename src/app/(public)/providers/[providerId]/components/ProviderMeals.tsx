@@ -1,11 +1,12 @@
-import MealCard from "@/components/meal/MealCard";
-import { Meal } from "@/types/meal";
+
+
 import ProviderMealsHeader from "./ProviderMealsHeader";
 import ProviderMealsGrid from "./ProviderMealsGrid";
 import EmptyMeals from "./EmptyMeals";
+import { Meal as MealType } from "@/types/Meal";
 
 interface Props {
-    meals: Meal[];
+    meals: MealType[];
 }
 
 export default function ProviderMeals({ meals }: Props) {
