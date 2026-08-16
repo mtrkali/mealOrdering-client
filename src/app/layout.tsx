@@ -1,16 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist_Mono, Inter } from "next/font/google";
+// @ts-ignore: Allow side-effect CSS import without type declarations
 import "./globals.css";
-import { AuthProvider } from "@/context/AuthContext";
+// @ts-ignore
+import "aos/dist/aos.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+import { AuthProvider } from "@/context/AuthContext";
+import { CartProvider } from "@/context/CartContext";
+import Navbar from "@/pages/Home/Navbar/Navbar";
+import AOSProvider from "@/providers/AosProvider";
+
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
   subsets: ["latin"],
+  variable: "--font-geist-mono",
 });
 
 export const metadata: Metadata = {
@@ -25,11 +32,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${inter.className} ${geistMono.variable} antialiased`}>
         <AuthProvider>
-          {children}
+          <CartProvider>
+            <Navbar />
+            <AOSProvider>{children}</AOSProvider>
+          </CartProvider>
         </AuthProvider>
       </body>
     </html>

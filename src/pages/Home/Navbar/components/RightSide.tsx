@@ -25,7 +25,7 @@ export default function RightSide({ user }: { user: any }) {
                     </button>
 
                     {/* Dropdown */}
-                    <div className="absolute right-0 hidden w-48 rounded-xl border shadow-lg group-hover:block">
+                    <div className="absolute bg-black right-0 hidden w-48 rounded-xl border shadow-lg group-hover:block">
                         <button className="w-full px-4 py-3 text-left hover:bg-green-500 rounded">
                             Profile
                         </button>

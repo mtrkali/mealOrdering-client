@@ -1,9 +1,8 @@
-import Navbar from "@/pages/Home/Navbar/Navbar";
-
+import FoodHubHero from "@/components/FoodHubHero";
 export default function Home() {
   return (
     <div>
-      <Navbar />
+      <FoodHubHero />
     </div>
   );
 }
