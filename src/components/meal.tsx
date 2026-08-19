@@ -21,14 +21,18 @@ export default function Meal({ meal, index }: MealProps) {
   const pathname = usePathname() ?? "/";
 
   const handleAddToCart = (meal: MealType) => {
-    if (!user?.data) {
+    console.log("user in meal", user);
+    if (!user) {
       router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
       return;
     }
-    addToCart(meal);
-    alert(
-      "Added to cart! (This is a demo, no actual cart functionality implemented.)",
-    );
+    addToCart({
+      id: meal.id,
+      title: meal.title,
+      image: meal.image,
+      price: meal.price,
+    })
+    alert("Added to cart!")
   };
 
 

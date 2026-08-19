@@ -45,7 +45,7 @@ export default function PublicMeals() {
 
       if (!res.ok) throw new Error("Failed to fetch meals");
       const data = await res.json();
-      setMeals(data);
+      setMeals(data.data);
     } catch (error) {
       console.log(error)
     } finally {

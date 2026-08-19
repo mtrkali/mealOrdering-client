@@ -4,6 +4,15 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactCompiler: true,
 
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "ritmeda.com"
+      }
+    ]
+  },
+
   // better-auth proxy
   async rewrites() {
     return [
@@ -17,6 +26,7 @@ const nextConfig: NextConfig = {
         source: "/api/v1/:path*",
         destination: process.env.NEXT_PUBLIC_BACKEND_URL + "/api/v1/:path*",
       },
+
     ];
   },
 };
