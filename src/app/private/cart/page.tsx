@@ -1,8 +1,10 @@
 "use client";
 
 import { useCart } from "@/context/CartContext";
+import { useRouter } from "next/navigation";
 
 export default function CartPage() {
+    const router = useRouter();
     const {
         cart,
         increaseQuantity,
@@ -157,6 +159,7 @@ export default function CartPage() {
                         </div>
 
                         <button
+                            onClick={() => router.push("/private/checkout")}
                             disabled={cart.length === 0}
                             className="w-full mt-6 bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 disabled:bg-gray-300"
                         >
