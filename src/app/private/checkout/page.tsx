@@ -1,10 +1,11 @@
 "use client";
 
 import { useCart } from "@/context/CartContext";
+import { orderService } from "@/services/order.service";
 import { useState } from "react";
 
 export default function CheckoutPage() {
-    const { cart } = useCart();
+    const { cart, clearCart } = useCart();
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
@@ -22,7 +23,7 @@ export default function CheckoutPage() {
         0
     );
 
-    const handlePlaceOrder = () => {
+    const handlePlaceOrder = async () => {
         setError("");
 
         if (!formData.name.trim()) {
@@ -39,14 +40,30 @@ export default function CheckoutPage() {
             setError("Please enter your delivery address.");
             return;
         }
-        console.log("checkOut data : ", {
-            customer: formData,
-            items: cart.map((item) => ({
-                mealId: item.id,
-                quantity: item.quantity,
-            })),
-        });
-    }
+        try {
+            const payload = {
+                address: formData.address.trim(),
+                items: cart.map((item) => ({
+                    mealId: item.id,
+                    quantity: item.quantity,
+                }))
+            }
+
+            const result = await orderService.createOrder(payload);
+            console.log("Order created successfully: ", result);
+            //Clear cart only after successful order creation 
+            clearCart();
+            alert("Order placed successfully!")
+        } catch (error: any) {
+            console.log("Order creation failed:", error);
+
+            setError(
+                error?.response?.data?.error ||
+                error?.response?.data?.message ||
+                "Failed to place order. Please try again"
+            );
+        }
+    };
 
     if (cart.length === 0) {
         return (
