@@ -1,9 +1,16 @@
 "use client";
 
 import { useCart } from "@/context/CartContext";
+import { useState } from "react";
 
 export default function CheckoutPage() {
     const { cart } = useCart();
+    const [formData, setFormData] = useState({
+        name: "",
+        phone: "",
+        address: "",
+    })
+    const [error, setError] = useState("");
 
     const totalItems = cart.reduce(
         (total, item) => total + item.quantity,
@@ -14,6 +21,32 @@ export default function CheckoutPage() {
         (total, item) => total + item.price * item.quantity,
         0
     );
+
+    const handlePlaceOrder = () => {
+        setError("");
+
+        if (!formData.name.trim()) {
+            setError("Please enter your name");
+            return;
+        }
+
+        if (!formData.phone.trim()) {
+            setError("please enter your phone number");
+            return;
+        }
+
+        if (!formData.address.trim()) {
+            setError("Please enter your delivery address.");
+            return;
+        }
+        console.log("checkOut data : ", {
+            customer: formData,
+            items: cart.map((item) => ({
+                mealId: item.id,
+                quantity: item.quantity,
+            })),
+        });
+    }
 
     if (cart.length === 0) {
         return (
@@ -45,6 +78,10 @@ export default function CheckoutPage() {
                         Customer Information
                     </h2>
 
+                    {error && (
+                        <p className="mb-4 text-sm text-red-500">{error}</p>
+                    )}
+
                     <div className="space-y-5">
 
                         {/* Name */}
@@ -55,6 +92,13 @@ export default function CheckoutPage() {
 
                             <input
                                 type="text"
+                                value={formData.name}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        name: e.target.value,
+                                    })
+                                }
                                 placeholder="Enter your name"
                                 className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
                             />
@@ -68,6 +112,13 @@ export default function CheckoutPage() {
 
                             <input
                                 type="tel"
+                                value={formData.phone}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        phone: e.target.value,
+                                    })
+                                }
                                 placeholder="Enter your phone number"
                                 className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
                             />
@@ -81,6 +132,13 @@ export default function CheckoutPage() {
 
                             <textarea
                                 rows={4}
+                                value={formData.address}
+                                onChange={(e) =>
+                                    setFormData({
+                                        ...formData,
+                                        address: e.target.value,
+                                    })
+                                }
                                 placeholder="Enter your delivery address"
                                 className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
                             />
@@ -89,6 +147,7 @@ export default function CheckoutPage() {
                         {/* Place Order */}
                         <button
                             type="button"
+                            onClick={handlePlaceOrder}
                             className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600"
                         >
                             Place Order
