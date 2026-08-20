@@ -21,6 +21,15 @@ const createOrder = async (payload: CreateOrderPayload) => {
     return response.data;
 }
 
+const getMyOrders = async () => {
+    const response = await axios.get(
+        `${API_URL}/api/v1/orders/me`,
+        { withCredentials: true, }
+    );
+    return response.data;
+}
+
 export const orderService = {
     createOrder,
+    getMyOrders,
 }
