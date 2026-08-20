@@ -37,7 +37,7 @@ export default function MyOrdersPage() {
                     My Orders
                 </h1>
 
-                <p className="mt-6 text-gray-500">
+                <p className="mt-6 text-gray-500 animate animate-pulse">
                     Loading orders...
                 </p>
             </main>

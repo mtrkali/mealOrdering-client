@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const API_URL = "/api/v1";
 
 type CreateOrderPayload = {
     address: string;
@@ -12,7 +12,7 @@ type CreateOrderPayload = {
 
 const createOrder = async (payload: CreateOrderPayload) => {
     const response = await axios.post(
-        `${API_URL}/api/v1/orders`,
+        `${API_URL}/orders`,
         payload,
         {
             withCredentials: true,
@@ -23,15 +23,16 @@ const createOrder = async (payload: CreateOrderPayload) => {
 
 const getMyOrders = async () => {
     const response = await axios.get(
-        `${API_URL}/api/v1/orders/me`,
+        `${API_URL}/orders/me`,
         { withCredentials: true, }
     );
     return response.data;
 }
 
 const getMySingleOrder = async (orderId: string) => {
+    console.log("getMySingleOrder is called ")
     const response = await axios.get(
-        `${API_URL}/api/v1/orders/me/${orderId}`,
+        `${API_URL}/orders/me/${orderId}`,
         {
             withCredentials: true,
         }
