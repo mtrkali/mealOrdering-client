@@ -1,9 +1,10 @@
 "use client"
 import { orderService } from "@/services/order.service";
+import { Order, OrderItem } from "@/types";
 import { useEffect, useState } from "react";
 
 export default function MyOrdersPage() {
-    const [orders, setOrders] = useState<any[]>([]);
+    const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState("");
 
@@ -85,7 +86,7 @@ export default function MyOrdersPage() {
                 </div>
             ) : (
                 <div className="space-y-6">
-                    {orders.map((order) => (
+                    {orders.map((order: any) => (
                         <div
                             key={order.id}
                             className="border rounded-xl p-6 shadow-sm"
