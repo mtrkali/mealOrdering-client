@@ -12,6 +12,7 @@ export default function CheckoutPage() {
         address: "",
     })
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
 
     const totalItems = cart.reduce(
         (total, item) => total + item.quantity,
@@ -40,6 +41,7 @@ export default function CheckoutPage() {
             setError("Please enter your delivery address.");
             return;
         }
+        setLoading(true)
         try {
             const payload = {
                 address: formData.address.trim(),
@@ -48,7 +50,6 @@ export default function CheckoutPage() {
                     quantity: item.quantity,
                 }))
             }
-
             const result = await orderService.createOrder(payload);
             console.log("Order created successfully: ", result);
             //Clear cart only after successful order creation 
@@ -62,6 +63,8 @@ export default function CheckoutPage() {
                 error?.response?.data?.message ||
                 "Failed to place order. Please try again"
             );
+        } finally {
+            setLoading(false)
         }
     };
 
@@ -165,7 +168,8 @@ export default function CheckoutPage() {
                         <button
                             type="button"
                             onClick={handlePlaceOrder}
-                            className="w-full bg-blue-500 text-white py-3 rounded-lg font-medium hover:bg-blue-600"
+                            disabled={loading}
+                            className={`w-full  text-white py-3 rounded-lg font-medium ${loading ? 'cursor-not-allowed bg-gray-400' : 'cursor-pointer bg-blue-500 hover:bg-blue-600'}`}
                         >
                             Place Order
                         </button>
