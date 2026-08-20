@@ -126,7 +126,7 @@ export default function MyOrdersPage() {
 
                             {/* Order Items */}
                             <div className="mt-5 space-y-4">
-                                {order.items.map((item) => (
+                                {order.items.map((item: OrderItem) => (
                                     <div
                                         key={item.id}
                                         className="flex items-center gap-4"
