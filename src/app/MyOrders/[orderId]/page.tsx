@@ -120,6 +120,30 @@ export default function OrderDetailsPage() {
                     </div>
                 </div>
 
+                {/* Customer Information */}
+                <div className="border p-6 rounded-lg">
+                    <h2 className="text-xl font-semibold mb-4">
+                        Customer Information
+                    </h2>
+
+                    <div className="space-y-2 text-sm">
+                        <p>
+                            <span className="font-medium">Name:</span>{" "}
+                            {order.user?.name}
+                        </p>
+
+                        <p>
+                            <span className="font-medium">Email:</span>{" "}
+                            {order.user?.email}
+                        </p>
+
+                        <p>
+                            <span className="font-medium">Phone:</span>{" "}
+                            {order.user?.phone || "Not provided"}
+                        </p>
+                    </div>
+                </div>
+
                 {/* Order Items */}
                 <div>
                     <h2 className="text-xl font-semibold mb-4">
