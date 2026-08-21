@@ -100,18 +100,18 @@ export default function OrderDetailsPage() {
 
                         <p>
                             <span className="font-medium">Status:</span>{" "}
-                            {order.status}
-                        </p>
-
-                        <p>
-                            <span className="font-medium">Address:</span>{" "}
-                            {order.address}
+                            <span className="inline-block bg-blue-100 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
+                                {order.status}
+                            </span>
                         </p>
 
                         <p>
                             <span className="font-medium">Total:</span>{" "}
-                            ৳{order.totalPrice}
+                            <span className="font-semibold text-lg">
+                                ৳{order.totalPrice}
+                            </span>
                         </p>
+
 
                         <p>
                             <span className="font-medium">Created At:</span>{" "}
