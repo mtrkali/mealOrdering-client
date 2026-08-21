@@ -130,28 +130,43 @@ export default function OrderDetailsPage() {
                         {order.items?.map((item: any) => (
                             <div
                                 key={item.id}
-                                className="border rounded-lg p-4"
+                                className="border rounded-lg p-4 flex gap-4"
                             >
-                                <p>
-                                    <span className="font-medium">
-                                        Meal:
-                                    </span>{" "}
-                                    {item.meal?.name || item.mealId}
-                                </p>
+                                {item.meal?.image && (
+                                    <img
+                                        src={item.meal.image}
+                                        alt={item.meal.title}
+                                        className="w-24 h-24 object-cover rounded-lg"
+                                    />
+                                )}
 
-                                <p>
-                                    <span className="font-medium">
-                                        Quantity:
-                                    </span>{" "}
-                                    {item.quantity}
-                                </p>
+                                <div className="space-y-1">
+                                    <h3 className="text-lg font-semibold">
+                                        {item.meal?.title}
+                                    </h3>
 
-                                <p>
-                                    <span className="font-medium">
-                                        Price:
-                                    </span>{" "}
-                                    ৳{item.price}
-                                </p>
+                                    <p className="text-sm text-gray-600">
+                                        Cuisine: {item.meal?.cuisine}
+                                    </p>
+
+                                    <p>
+                                        <span className="font-medium">
+                                            Quantity:
+                                        </span>{" "}
+                                        {item.quantity}
+                                    </p>
+
+                                    <p>
+                                        <span className="font-medium">
+                                            Price:
+                                        </span>{" "}
+                                        ৳{item.price}
+                                    </p>
+
+                                    <p className="font-medium">
+                                        Subtotal: ৳{item.price * item.quantity}
+                                    </p>
+                                </div>
                             </div>
                         ))}
                     </div>
