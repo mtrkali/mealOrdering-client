@@ -84,9 +84,80 @@ export default function OrderDetailsPage() {
                 Order Details
             </h1>
 
-            <pre className="mt-6 bg-gray-100 p-4 rounded-lg overflow-auto text-sm">
-                {JSON.stringify(order, null, 2)}
-            </pre>
+            <div className="mt-6 space-y-6">
+
+                {/* Order Summary */}
+                <div className="border p-6 rounded-lg">
+                    <h2 className="text-xl font-semibold mb-4">
+                        Order Summary
+                    </h2>
+
+                    <div className="space-y-2 text-sm">
+                        <p>
+                            <span className="font-medium">Order ID:</span>{" "}
+                            {order.id}
+                        </p>
+
+                        <p>
+                            <span className="font-medium">Status:</span>{" "}
+                            {order.status}
+                        </p>
+
+                        <p>
+                            <span className="font-medium">Address:</span>{" "}
+                            {order.address}
+                        </p>
+
+                        <p>
+                            <span className="font-medium">Total:</span>{" "}
+                            ৳{order.totalPrice}
+                        </p>
+
+                        <p>
+                            <span className="font-medium">Created At:</span>{" "}
+                            {new Date(order.createdAt).toLocaleString()}
+                        </p>
+                    </div>
+                </div>
+
+                {/* Order Items */}
+                <div>
+                    <h2 className="text-xl font-semibold mb-4">
+                        Order Items
+                    </h2>
+
+                    <div className="space-y-4">
+                        {order.items?.map((item: any) => (
+                            <div
+                                key={item.id}
+                                className="border rounded-lg p-4"
+                            >
+                                <p>
+                                    <span className="font-medium">
+                                        Meal:
+                                    </span>{" "}
+                                    {item.meal?.name || item.mealId}
+                                </p>
+
+                                <p>
+                                    <span className="font-medium">
+                                        Quantity:
+                                    </span>{" "}
+                                    {item.quantity}
+                                </p>
+
+                                <p>
+                                    <span className="font-medium">
+                                        Price:
+                                    </span>{" "}
+                                    ৳{item.price}
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+            </div>
         </main>
     );
 }
