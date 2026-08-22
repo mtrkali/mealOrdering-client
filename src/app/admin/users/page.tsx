@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 
 export default function AdminUsersPage() {
     const [users, setUsers] = useState<any[]>([]);
+    const [updatingUserId, setUpdatingUserId] = useState<string | null>(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -34,6 +36,41 @@ export default function AdminUsersPage() {
 
         fetchUsers();
     }, []);
+
+    const handleToggleStatus = async (
+        userId: string,
+        currentStatus: string
+    ) => {
+        try {
+            setUpdatingUserId(userId);
+
+            const newStatus =
+                currentStatus === "INACTIVE"
+                    ? "ACTIVE"
+                    : "INACTIVE"
+
+            await userService.updateUser(userId, {
+                status: newStatus,
+            });
+
+            setUsers((prevUsers) =>
+                prevUsers.map((user) =>
+                    user.id === userId
+                        ? { ...user, status: newStatus }
+                        : user
+                )
+            );
+        } catch (error: any) {
+            console.log("Failed to update user status:", error);
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to update user status."
+            )
+        } finally {
+            setUpdatingUserId(null);
+        }
+    }
 
     if (loading) {
         return (
@@ -76,7 +113,7 @@ export default function AdminUsersPage() {
             <div className="mt-6 overflow-x-auto">
                 <table className="w-full border-collapse border">
                     <thead>
-                        <tr className="bg-gray-100">
+                        <tr className="bg-blue-500">
                             <th className="border p-3 text-left">
                                 Name
                             </th>
@@ -91,6 +128,10 @@ export default function AdminUsersPage() {
 
                             <th className="border p-3 text-left">
                                 Status
+                            </th>
+
+                            <th className="border p-3 text-left">
+                                Actions
                             </th>
                         </tr>
                     </thead>
@@ -112,6 +153,30 @@ export default function AdminUsersPage() {
 
                                 <td className="border p-3">
                                     {user.status}
+                                </td>
+
+                                <td className="border p-3">
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            handleToggleStatus(user.id, user.status)
+                                        }
+                                        disabled={updatingUserId === user.id}
+                                        className={`px-3 py-1 rounded text white ${user.status === "INACTIVE"
+                                            ? "bg-green-500 hover:bg-green-600"
+                                            : "bg-red-500 hover:bg-red-600"
+                                            } ${updatingUserId === user.id
+                                                ? "cursor-not-allowed bg-gray-400"
+                                                : ""
+                                            }`}>
+                                        {
+                                            updatingUserId === user.id
+                                                ? "Updaing..."
+                                                : user.status === "INACTIVE"
+                                                    ? "Activate"
+                                                    : "InActivate"
+                                        }
+                                    </button>
                                 </td>
                             </tr>
                         ))}
