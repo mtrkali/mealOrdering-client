@@ -202,10 +202,10 @@ export default function AdminUsersPage() {
                                             }`}>
                                         {
                                             updatingUserId === user.id
-                                                ? "Updaing..."
+                                                ? "Updating..."
                                                 : user.status === "INACTIVE"
                                                     ? "Activate"
-                                                    : "InActivate"
+                                                    : "Deactivate"
                                         }
                                     </button>
 
