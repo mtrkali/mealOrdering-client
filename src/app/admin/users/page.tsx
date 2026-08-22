@@ -9,6 +9,7 @@ export default function AdminUsersPage() {
     const [updatingUserId, setUpdatingUserId] = useState<string | null>(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [actionError, setActionError] = useState("");
 
 
     useEffect(() => {
@@ -42,6 +43,7 @@ export default function AdminUsersPage() {
         currentStatus: string
     ) => {
         try {
+            setActionError("");
             setUpdatingUserId(userId);
 
             const newStatus =
@@ -63,7 +65,7 @@ export default function AdminUsersPage() {
         } catch (error: any) {
             console.log("Failed to update user status:", error);
 
-            setError(
+            setActionError(
                 error?.response?.data?.message ||
                 "Failed to update user status."
             )
@@ -80,6 +82,7 @@ export default function AdminUsersPage() {
         if (!confirmed) return;
 
         try {
+            setActionError("");
             setUpdatingUserId(userId);
             await userService.deleteUser(userId);
             setUsers((prevUsers) =>
@@ -88,7 +91,7 @@ export default function AdminUsersPage() {
         } catch (error: any) {
             console.log("Failed to delete user: ", error);
 
-            setError(
+            setActionError(
                 error?.response?.data?.message ||
                 "Failed to delete user."
             );
@@ -133,6 +136,10 @@ export default function AdminUsersPage() {
             <p className="mt-2 text-gray-500">
                 Total Users: {users.length}
             </p>
+
+            {actionError &&
+                <p className="mt-4 text-red-500">{actionError}</p>
+            }
 
             <div className="mt-6 overflow-x-auto">
                 <table className="w-full border-collapse border">
@@ -186,7 +193,7 @@ export default function AdminUsersPage() {
                                             handleToggleStatus(user.id, user.status)
                                         }
                                         disabled={updatingUserId === user.id}
-                                        className={`px-3 py-1 rounded text white ${user.status === "INACTIVE"
+                                        className={`px-3 py-1 rounded text-white ${user.status === "INACTIVE"
                                             ? "bg-green-500 hover:bg-green-600"
                                             : "bg-red-500 hover:bg-red-600"
                                             } ${updatingUserId === user.id
