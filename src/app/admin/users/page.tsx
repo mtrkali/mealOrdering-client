@@ -21,7 +21,7 @@ export default function AdminUsersPage() {
 
                 console.log("Admin users:", result);
 
-                setUsers(result.data?.data || []);
+                setUsers(result.data || []);
             } catch (error: any) {
                 console.log("Failed to fetch users:", error);
 
