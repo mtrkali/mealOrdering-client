@@ -1,10 +1,13 @@
 "use client";
 
+import { useAuth } from "@/context/AuthContext";
 import { orderService } from "@/services/order.service";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function OrderDetailsPage() {
+    const user = useAuth();
+    console.log("current user :", user);
     const params = useParams();
     const orderId = params?.orderId as string | undefined;
 
