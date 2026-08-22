@@ -10,6 +10,11 @@ type CreateOrderPayload = {
     }[];
 };
 
+
+//============
+//orders fuctions
+//==========
+
 const createOrder = async (payload: CreateOrderPayload) => {
     const response = await axios.post(
         `${API_URL}/orders`,
@@ -40,8 +45,66 @@ const getMySingleOrder = async (orderId: string) => {
     return response.data;
 }
 
+
+//============
+//users fuctions
+//==========
+
+const getAllUsers = async () => {
+    const response = await axios.get(
+        `${API_URL}/users`,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
+const getSingleUser = async (userId: string) => {
+    const response = await axios.get(
+        `${API_URL}/users/${userId}`,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
+const updateUser = async (
+    userId: string,
+    updateData: {
+        status?: string;
+        role?: string;
+        name?: string;
+        phone?: string;
+    }
+) => {
+    const response = await axios.patch(
+        `${API_URL}/users/${userId}`,
+        updateData,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
+const deleteUser = async (userId: string) => {
+    const response = await axios.delete(
+        `${API_URL}/users/${userId}`,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
 export const orderService = {
     createOrder,
     getMyOrders,
     getMySingleOrder,
+    getAllUsers,
+    getSingleUser,
+    updateUser,
+    deleteUser,
 }
