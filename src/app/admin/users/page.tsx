@@ -72,6 +72,30 @@ export default function AdminUsersPage() {
         }
     }
 
+    const handleDeleteUser = async (userId: string) => {
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this user?"
+        );
+
+        if (!confirmed) return;
+
+        try {
+            setUpdatingUserId(userId);
+            await userService.deleteUser(userId);
+            setUsers((prevUsers) =>
+                prevUsers.filter((user) => user.id !== userId)
+            );
+        } catch (error: any) {
+            console.log("Failed to delete user: ", error);
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to delete user."
+            );
+        } finally {
+            setUpdatingUserId(null);
+        }
+    }
     if (loading) {
         return (
             <main className="max-w-6xl mx-auto px-4 py-8">
@@ -176,6 +200,17 @@ export default function AdminUsersPage() {
                                                     ? "Activate"
                                                     : "InActivate"
                                         }
+                                    </button>
+
+                                    <button
+                                        type="button"
+                                        onClick={() => handleDeleteUser(user.id)}
+                                        disabled={updatingUserId === user.id}
+                                        className={`ml-2 px-3 py-1 rounded text-white ${updatingUserId === user.id
+                                            ? "cursor-not-allowed bg-gray-400"
+                                            : "bg-red-500 hover:bg-red-700"
+                                            }`}>
+                                        Delete
                                     </button>
                                 </td>
                             </tr>
