@@ -2,11 +2,13 @@
 
 import { providerService } from "@/services/provider.service";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AdminProvidersPage() {
     const [providers, setProviders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const router = useRouter();
 
     useEffect(() => {
         const fetchProviders = async () => {
@@ -104,7 +106,13 @@ export default function AdminProvidersPage() {
 
                     <tbody>
                         {providers.map((provider) => (
-                            <tr key={provider.id}>
+                            <tr
+                                key={provider.id}
+                                onClick={() =>
+                                    router.push(`/admin/providers/${provider.id}`)
+                                }
+                                className="cursor-pointer hover:bg-gray-50"
+                            >
                                 <td className="border p-3">
                                     {provider.businessName}
                                 </td>
