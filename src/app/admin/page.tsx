@@ -1,9 +1,11 @@
 "use client";
+import { orderService } from "@/services/order.service";
 import { userService } from "@/services/user.service";
 import { useEffect, useState } from "react";
 
 export default function AdminDashboardPage() {
     const [totalUsers, setTotalUsers] = useState(0);
+    const [totalOrders, setTotalOrders] = useState(0);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -15,6 +17,9 @@ export default function AdminDashboardPage() {
 
                 const result = await userService.getAllUsers();
                 setTotalUsers(result.totalUsers || 0);
+
+                const orderResult = await orderService.getAllOrders();
+                setTotalOrders(orderResult.totalOrders || 0)
 
             } catch (error: any) {
                 console.log("Failed to load dashboard data.")
@@ -75,6 +80,16 @@ export default function AdminDashboardPage() {
 
                     <h2 className="mt-2 text-3xl font-bold">
                         {totalUsers}
+                    </h2>
+                </div>
+
+                <div className="border rounded-lg p-6 shadow-sm">
+                    <p className="text-gray-500">
+                        Total Orders
+                    </p>
+
+                    <h2 className="mt-2 text-3xl font-bold">
+                        {totalOrders}
                     </h2>
                 </div>
             </div>

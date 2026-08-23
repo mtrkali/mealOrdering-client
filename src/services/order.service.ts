@@ -35,7 +35,6 @@ const getMyOrders = async () => {
 }
 
 const getMySingleOrder = async (orderId: string) => {
-    console.log("getMySingleOrder is called ")
     const response = await axios.get(
         `${API_URL}/orders/me/${orderId}`,
         {
