@@ -1,18 +1,21 @@
 "use client";
 
 import { orderService } from "@/services/order.service";
+import { p } from "framer-motion/client";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { act, useEffect, useState } from "react";
 
 export default function AdminOrderDetailsPage() {
     const params = useParams();
     const router = useRouter();
 
-    const orderId = params.orderId as string;
+    const orderId = params?.orderId as string;
 
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [updating, setUpdating] = useState(false);
+    const [actionError, setActionError] = useState("");
 
     useEffect(() => {
         const fetchOrder = async () => {
@@ -45,6 +48,39 @@ export default function AdminOrderDetailsPage() {
             fetchOrder();
         }
     }, [orderId]);
+
+    const handleUpdateStatus = async (
+        newStatus: string,
+    ) => {
+        try {
+            setUpdating(true);
+            setActionError("");
+
+            const result = await orderService.updateOrder(
+                orderId,
+                newStatus,
+            )
+
+            console.log("Update order :", result);
+
+            setOrder((prevOrder: any) => ({
+                ...prevOrder,
+                status: newStatus,
+            }))
+        } catch (error: any) {
+            console.log(
+                "Failed to update order status: ",
+                error
+            );
+
+            setActionError(
+                error?.response?.data?.message ||
+                "Failed to update order status. "
+            );
+        } finally {
+            setUpdating(false);
+        }
+    }
 
     if (loading) {
         return (
@@ -133,13 +169,39 @@ export default function AdminOrderDetailsPage() {
                     </div>
 
                     <div>
-                        <p className="text-gray-500">
+                        <p className="">
                             Status
                         </p>
 
-                        <p className="mt-1 font-medium">
-                            {order.status}
-                        </p>
+                        <select
+                            value={order.status}
+                            onChange={(e) =>
+                                handleUpdateStatus(e.target.value)
+                            }
+                            disabled={updating}
+                            className={`mt-1 border rounded px-3 py-2 ${updating
+                                ? "cursor-not-allowed"
+                                : ""
+                                }`}
+                        >
+                            <option className="text-black" value="PLACED">PLACED</option>
+                            <option className="text-black" value="PREPARING">PREPARING</option>
+                            <option className="text-black" value="READY">READY</option>
+                            <option className="text-black" value="DELIVERED">DELIVERED</option>
+                            <option className="text-black" value="CANCELLED">CANCELLED</option>
+                        </select>
+
+                        {updating && (
+                            <p className="mt-1 text-sm text-gray-500">
+                                Updating...
+                            </p>
+                        )}
+
+                        {actionError && (
+                            <p className="mt-2 text-sm text-gray-500">
+                                {actionError}
+                            </p>
+                        )}
                     </div>
 
                     <div>
