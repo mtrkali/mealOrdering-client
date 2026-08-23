@@ -1,11 +1,23 @@
 "use client";
-import { orderService } from "@/services/order.service";
-import { userService } from "@/services/user.service";
+import { adminService } from "@/services/admin.service";
 import { useEffect, useState } from "react";
 
+type DashboardStats = {
+    totalUsers: number;
+    totalOrders: number;
+    totalMeals: number;
+    totalProviders: number;
+    totalRevenue: number;
+}
+
 export default function AdminDashboardPage() {
-    const [totalUsers, setTotalUsers] = useState(0);
-    const [totalOrders, setTotalOrders] = useState(0);
+    const [stats, setStats] = useState<DashboardStats>({
+        totalUsers: 0,
+        totalOrders: 0,
+        totalMeals: 0,
+        totalProviders: 0,
+        totalRevenue: 0,
+    });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -15,12 +27,9 @@ export default function AdminDashboardPage() {
                 setLoading(true);
                 setError("");
 
-                const result = await userService.getAllUsers();
-                setTotalUsers(result.totalUsers || 0);
-
-                const orderResult = await orderService.getAllOrders();
-                setTotalOrders(orderResult.totalOrders || 0)
-
+                const result = await adminService.getDashBoardStats();
+                console.log("Admin deshboard stats: ", result);
+                setStats(result.data);
             } catch (error: any) {
                 console.log("Failed to load dashboard data.")
 
@@ -79,7 +88,7 @@ export default function AdminDashboardPage() {
                     </p>
 
                     <h2 className="mt-2 text-3xl font-bold">
-                        {totalUsers}
+                        {stats.totalUsers}
                     </h2>
                 </div>
 
@@ -89,7 +98,27 @@ export default function AdminDashboardPage() {
                     </p>
 
                     <h2 className="mt-2 text-3xl font-bold">
-                        {totalOrders}
+                        {stats.totalOrders}
+                    </h2>
+                </div>
+
+                <div className="border rounded-lg p-6 shadow-sm">
+                    <p className="text-gray-500">
+                        Total Revenue
+                    </p>
+
+                    <h2 className="mt-2 text-3xl font-bold">
+                        {stats.totalRevenue}
+                    </h2>
+                </div>
+
+                <div className="border rounded-lg p-6 shadow-sm">
+                    <p className="text-gray-500">
+                        Total providers
+                    </p>
+
+                    <h2 className="mt-2 text-3xl font-bold">
+                        {stats.totalProviders}
                     </h2>
                 </div>
             </div>
