@@ -2,11 +2,13 @@
 
 import { orderService } from "@/services/order.service";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function AdminOrdersPage() {
     const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const router = useRouter();
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -100,7 +102,11 @@ export default function AdminOrdersPage() {
 
                     <tbody>
                         {orders.map((order) => (
-                            <tr key={order.id}>
+                            <tr
+                                key={order.id}
+                                onClick={() => router.push(`/admin/orders/${order.id}`)}
+                                className="cursor-pointer hover:bg-gray-50"
+                            >
                                 <td className="border p-3">
                                     <p className="font-medium">
                                         {order.user?.name}
