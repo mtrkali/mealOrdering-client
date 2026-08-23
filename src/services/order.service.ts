@@ -46,9 +46,15 @@ const getMySingleOrder = async (orderId: string) => {
 }
 
 
-//============
-//users fuctions
-//==========
+const getAllOrders = async () => {
+    const response = await axios.get(
+        `${API_URL}/orders`,
+        {
+            withCredentials: true
+        }
+    )
+    return response.data;
+}
 
 
 
@@ -56,4 +62,5 @@ export const orderService = {
     createOrder,
     getMyOrders,
     getMySingleOrder,
+    getAllOrders,
 }
