@@ -56,10 +56,21 @@ const getAllOrders = async () => {
 }
 
 
+const getSingleOrder = async (orderId: string) => {
+    const response = await axios.get(
+        `${API_URL}/orders/${orderId}`,
+        {
+            withCredentials: true,
+        }
+    );
+
+    return response.data;
+};
 
 export const orderService = {
     createOrder,
     getMyOrders,
     getMySingleOrder,
     getAllOrders,
+    getSingleOrder,
 }

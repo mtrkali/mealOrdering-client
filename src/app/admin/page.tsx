@@ -108,7 +108,7 @@ export default function AdminDashboardPage() {
                     </p>
 
                     <h2 className="mt-2 text-3xl font-bold">
-                        {stats.totalRevenue}
+                        {stats.totalRevenue.toFixed(2)}
                     </h2>
                 </div>
 
@@ -119,6 +119,16 @@ export default function AdminDashboardPage() {
 
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalProviders}
+                    </h2>
+                </div>
+
+                <div className="border rounded-lg p-6 shadow-sm">
+                    <p className="text-gray-500">
+                        Total Meals
+                    </p>
+
+                    <h2 className="mt-2 text-3xl font-bold">
+                        {stats.totalMeals}
                     </h2>
                 </div>
             </div>
