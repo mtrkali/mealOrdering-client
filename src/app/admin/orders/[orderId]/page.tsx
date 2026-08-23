@@ -1,7 +1,7 @@
 "use client";
 
 import { orderService } from "@/services/order.service";
-import { p } from "framer-motion/client";
+import { del, p } from "framer-motion/client";
 import { useParams, useRouter } from "next/navigation";
 import { act, useEffect, useState } from "react";
 
@@ -14,6 +14,7 @@ export default function AdminOrderDetailsPage() {
     const [order, setOrder] = useState<any>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [deleting, setDeleting] = useState(false);
     const [updating, setUpdating] = useState(false);
     const [actionError, setActionError] = useState("");
 
@@ -82,6 +83,33 @@ export default function AdminOrderDetailsPage() {
         }
     }
 
+    const handleDeleteOrder = async () => {
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this order?"
+        );
+        if (!confirmed) return;
+
+        try {
+            setDeleting(true);
+            setActionError("");
+
+            await orderService.deleteOrder(orderId);
+            router.push("/admin/orders")
+        } catch (error: any) {
+            console.log(
+                "Failed to delete order:",
+                error
+            )
+
+            setActionError(
+                error?.response?.data?.message ||
+                "Failed to delete order."
+            )
+        } finally {
+            setDeleting(false);
+        }
+    }
+
     if (loading) {
         return (
             <main className="max-w-6xl mx-auto px-4 py-8">
@@ -131,6 +159,18 @@ export default function AdminOrderDetailsPage() {
             >
                 ← Back to Orders
             </button>
+
+            <button
+                type="button"
+                onClick={handleDeleteOrder}
+                disabled={deleting}
+                className={`px-4 py-2 text-white rounded ${deleting
+                    ? "curosor-not-allowed bg-gray-400"
+                    : "bg-red-500 hover:bg-red-700"
+                    }`}>
+                {deleting ? "Deleting..." : "Delete Order"}
+            </button>
+
 
             <h1 className="text-3xl font-bold">
                 Order Details

@@ -83,6 +83,16 @@ const updateOrder = async (
     return response.data;
 }
 
+
+const deleteOrder = async (orderId: string) => {
+    const response = await axios.delete(
+        `${API_URL}/orders/${orderId}`,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
 export const orderService = {
     createOrder,
     getMyOrders,
@@ -90,4 +100,5 @@ export const orderService = {
     getAllOrders,
     getSingleOrder,
     updateOrder,
+    deleteOrder
 }
