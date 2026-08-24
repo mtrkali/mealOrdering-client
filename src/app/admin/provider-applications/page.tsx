@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 
 export default function AdminProviderApplicationsPage() {
     const [applications, setApplications] = useState<any[]>([]);
+    const [approvingId, setApprovingId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
 
@@ -38,6 +39,29 @@ export default function AdminProviderApplicationsPage() {
         fetchApplications();
     }, []);
 
+    const handleApprove = async (applicationId: string) => {
+        try {
+            setApprovingId(applicationId);
+            setError("");
+
+            await providerApplicationService.approveProviderApplicaton(applicationId);
+
+            setApplications((prev) =>
+                prev.map((application) => application.id === applicationId
+                    ? { ...application, status: "APPROVED" }
+                    : application)
+            );
+        } catch (error: any) {
+            console.log("Failed to approve provider application: ", error)
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to approve provider application"
+            )
+        } finally {
+            setApprovingId(null);
+        }
+    }
     if (loading) {
         return (
             <main className="max-w-6xl mx-auto px-4 py-8">
@@ -108,6 +132,9 @@ export default function AdminProviderApplicationsPage() {
                                 <th className="border p-3 text-left">
                                     Status
                                 </th>
+                                <th className="border p-3 text-left">
+                                    Action
+                                </th>
                             </tr>
                         </thead>
 
@@ -136,6 +163,26 @@ export default function AdminProviderApplicationsPage() {
 
                                     <td className="border p-3">
                                         {application.status}
+                                    </td>
+
+                                    <td className="border p-3">
+                                        {application.status === "PENDING" ? (
+                                            <button
+                                                type="button"
+                                                onClick={() => handleApprove(application.id)}
+                                                className={`px-4 py-2 rounded text-white ${approvingId
+                                                    ? "bg-gray-400 cursor-not-allowed"
+                                                    : "bg-green-500 hover: bg-green-600"
+                                                    }`}
+                                            >
+                                                {approvingId === application.id ? "Approving" : "Approve"}
+                                            </button>
+                                        ) :
+                                            (
+                                                <span className="text-green-600 font-medium">
+                                                    {application.status}
+                                                </span>
+                                            )}
                                     </td>
                                 </tr>
                             ))}
