@@ -78,6 +78,14 @@ export default function AdminProvidersPage() {
                 Total Providers: {providers.length}
             </p>
 
+            <button
+                type="button"
+                onClick={() => router.back()}
+                className="mb-6 px-4 py-1 bg-green-500 text-white rounded hover:bg-gray-700"
+            >
+                ← Back
+            </button>
+
             <div className="mt-6 overflow-x-auto">
                 <table className="w-full border-collapse border">
                     <thead>

@@ -1,5 +1,6 @@
 "use client";
 import { adminService } from "@/services/admin.service";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type DashboardStats = {
@@ -8,14 +9,17 @@ type DashboardStats = {
     totalMeals: number;
     totalProviders: number;
     totalRevenue: number;
+    totalApplicantProvider: number;
 }
 
 export default function AdminDashboardPage() {
+    const router = useRouter();
     const [stats, setStats] = useState<DashboardStats>({
         totalUsers: 0,
         totalOrders: 0,
         totalMeals: 0,
         totalProviders: 0,
+        totalApplicantProvider: 0,
         totalRevenue: 0,
     });
     const [loading, setLoading] = useState(true);
@@ -82,7 +86,7 @@ export default function AdminDashboardPage() {
             </p>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div onClick={() => router.push("/admin/users")} className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
                     <p className="text-gray-500">
                         Total Users
                     </p>
@@ -92,7 +96,7 @@ export default function AdminDashboardPage() {
                     </h2>
                 </div>
 
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div onClick={() => router.push("/admin/orders")} className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
                     <p className="text-gray-500">
                         Total Orders
                     </p>
@@ -102,7 +106,7 @@ export default function AdminDashboardPage() {
                     </h2>
                 </div>
 
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
                     <p className="text-gray-500">
                         Total Revenue
                     </p>
@@ -112,7 +116,7 @@ export default function AdminDashboardPage() {
                     </h2>
                 </div>
 
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div onClick={() => router.push("/admin/providers")} className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
                     <p className="text-gray-500">
                         Total providers
                     </p>
@@ -122,13 +126,23 @@ export default function AdminDashboardPage() {
                     </h2>
                 </div>
 
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
                     <p className="text-gray-500">
                         Total Meals
                     </p>
 
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalMeals}
+                    </h2>
+                </div>
+
+                <div onClick={() => router.push("/admin/provider-applications")} className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
+                    <p className="text-gray-500">
+                        Total provider application
+                    </p>
+
+                    <h2 className="mt-2 text-3xl font-bold">
+                        {stats.totalApplicantProvider}
                     </h2>
                 </div>
             </div>

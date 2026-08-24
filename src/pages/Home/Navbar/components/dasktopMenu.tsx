@@ -18,7 +18,7 @@ export default function DeskTopMenu({ user }: { user: any }) {
 
             {user && (
                 <Link
-                    href="/cart"
+                    href="/private/cart"
                     className="flex items-center gap-1 hover:text-green-600"
                 >
                     <ShoppingCart size={18} />
@@ -32,21 +32,20 @@ export default function DeskTopMenu({ user }: { user: any }) {
                 </Link>
             )}
 
-            {user?.role === "PROVIDER" && (
-                <Link
-                    href="/provider/dashboard"
-                    className="flex items-center gap-1 hover:text-green-600"
-                >
-                    <LayoutDashboard size={18} />
-                    Dashboard
-                </Link>
-            )}
+            <Link
+                href={
+                    user.role === "ADMIN"
+                        ? "/admin"
+                        : user.role === "PROVIDER"
+                            ? "/provider"
+                            : "/customer"
+                }
+                className="flex items-center gap-1 hover:text-green-600"
+            >
+                <LayoutDashboard size={18} />
+                Dashboard
+            </Link>
 
-            {user?.role === "ADMIN" && (
-                <Link href="/admin" className="hover:text-green-600">
-                    Admin
-                </Link>
-            )}
         </div>
     )
 }

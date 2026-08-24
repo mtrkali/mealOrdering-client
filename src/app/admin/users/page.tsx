@@ -1,15 +1,20 @@
 "use client";
 
 
+import { useAuth } from "@/context/AuthContext";
 import { userService } from "@/services/user.service";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AdminUsersPage() {
+    const { user: currentUser } = useAuth();
     const [users, setUsers] = useState<any[]>([]);
     const [updatingUserId, setUpdatingUserId] = useState<string | null>(null)
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [actionError, setActionError] = useState("");
+    const router = useRouter();
+
 
 
     useEffect(() => {
@@ -137,6 +142,14 @@ export default function AdminUsersPage() {
                 Total Users: {users.length}
             </p>
 
+            <button
+                type="button"
+                onClick={() => router.back()}
+                className="mb-6 px-4 py-1 bg-green-500 text-white rounded hover:bg-gray-700"
+            >
+                ← Back
+            </button>
+
             {actionError &&
                 <p className="mt-4 text-red-500">{actionError}</p>
             }
@@ -192,11 +205,11 @@ export default function AdminUsersPage() {
                                         onClick={() =>
                                             handleToggleStatus(user.id, user.status)
                                         }
-                                        disabled={updatingUserId === user.id}
+                                        disabled={updatingUserId === user.id || currentUser?.id === user.id}
                                         className={`px-3 py-1 rounded text-white ${user.status === "INACTIVE"
                                             ? "bg-green-500 hover:bg-green-600"
                                             : "bg-red-500 hover:bg-red-600"
-                                            } ${updatingUserId === user.id
+                                            } ${updatingUserId === user.id || currentUser?.id === user.id
                                                 ? "cursor-not-allowed bg-gray-400"
                                                 : ""
                                             }`}>
@@ -212,12 +225,12 @@ export default function AdminUsersPage() {
                                     <button
                                         type="button"
                                         onClick={() => handleDeleteUser(user.id)}
-                                        disabled={updatingUserId === user.id}
-                                        className={`ml-2 px-3 py-1 rounded text-white ${updatingUserId === user.id
+                                        disabled={updatingUserId === user.id || currentUser?.id === user.id}
+                                        className={`ml-2 px-3 py-1 rounded text-white ${updatingUserId === user.id || currentUser?.id === user.id
                                             ? "cursor-not-allowed bg-gray-400"
                                             : "bg-red-500 hover:bg-red-700"
                                             }`}>
-                                        Delete
+                                        {currentUser?.id === user.id ? "You" : "Delete"}
                                     </button>
                                 </td>
                             </tr>

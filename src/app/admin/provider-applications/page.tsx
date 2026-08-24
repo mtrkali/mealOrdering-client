@@ -1,6 +1,7 @@
 "use client";
 
 import { providerApplicationService } from "@/services/providerApplication.service";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function AdminProviderApplicationsPage() {
@@ -8,6 +9,7 @@ export default function AdminProviderApplicationsPage() {
     const [approvingId, setApprovingId] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const router = useRouter();
 
     useEffect(() => {
         const fetchApplications = async () => {
@@ -99,6 +101,14 @@ export default function AdminProviderApplicationsPage() {
             <p className="mt-2 text-gray-500">
                 Total Applications: {applications.length}
             </p>
+
+            <button
+                type="button"
+                onClick={() => router.back()}
+                className="mb-6 px-4 py-1 bg-green-500 text-white rounded hover:bg-gray-700"
+            >
+                ← Back
+            </button>
 
             {applications.length === 0 ? (
                 <p className="mt-6 text-gray-500">
