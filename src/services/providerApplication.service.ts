@@ -12,7 +12,19 @@ const getAllProviderApplications = async () => {
     return response.data;
 }
 
+const approveProviderApplicaton = async (applicationId: string) => {
+    const response = await axios.patch(
+        `${API_URL}/beprovider`,
+        { applicationId },
+        {
+            withCredentials: true
+        }
+    )
+    return response.data;
+}
+
 export const providerApplicationService = {
     getAllProviderApplications,
+    approveProviderApplicaton,
 
 }
