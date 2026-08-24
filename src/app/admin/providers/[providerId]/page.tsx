@@ -8,12 +8,13 @@ export default function AdminProviderDetailsPage() {
     const params = useParams();
     const router = useRouter();
 
-    const providerId = params.providerId as string;
+    const providerId = params?.providerId as string;
 
     const [provider, setProvider] = useState<any>(null);
     const [meals, setMeals] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [updating, setUpdating] = useState(false);
 
     useEffect(() => {
         const fetchProviderDetails = async () => {
@@ -62,6 +63,30 @@ export default function AdminProviderDetailsPage() {
             fetchProviderDetails();
         }
     }, [providerId]);
+
+    const handleUpdateStatus = async (newStatus: string) => {
+        try {
+            setUpdating(true);
+            setError("");
+
+            const result = await providerService.updateProviderStatus(providerId, newStatus);
+            console.log("update orders :", result);
+
+            setProvider((prevProvider: any) => ({
+                ...prevProvider,
+                status: newStatus,
+            }))
+        } catch (error: any) {
+            console.log("Failed to update provider status ", error)
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to update provider status"
+            )
+        } finally {
+            setUpdating(false);
+        }
+    }
 
     if (loading) {
         return (
@@ -174,9 +199,24 @@ export default function AdminProviderDetailsPage() {
                             Status
                         </p>
 
-                        <p className="mt-1 font-medium">
-                            {provider.status}
-                        </p>
+                        <select
+                            value={provider.status}
+                            onChange={(e) => handleUpdateStatus(e.target.value)}
+                            disabled={updating}
+                            className={`px-4 py-2 mt-1 border rounded ${updating
+                                ? "cursor-not-allowed"
+                                : ""
+                                }`}
+                        >
+                            <option value="ACTIVE" className="text-black">Active</option>
+                            <option value="INACTIVE" className="text-black">DeActive</option>
+                        </select>
+                        {updating && (
+                            <p className="mt-1 text-sm text-gray-500">
+                                Updating...
+                            </p>
+                        )}
+
                     </div>
                 </div>
             </div>

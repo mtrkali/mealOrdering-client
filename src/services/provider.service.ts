@@ -26,8 +26,20 @@ const getProviderMeals = async (providerId: string) => {
     return response.data;
 };
 
+const updateProviderStatus = async (providerId: string, status: string) => {
+    const response = await axios.patch(
+        `${API_URL}/providers/${providerId}`,
+        { status },
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
 export const providerService = {
     getAllProviders,
     getSingleProvider,
     getProviderMeals,
+    updateProviderStatus
 };
