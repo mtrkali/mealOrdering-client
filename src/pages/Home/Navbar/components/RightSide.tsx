@@ -20,7 +20,7 @@ export default function RightSide({ user }: { user: any }) {
 
                         <div className="text-left">
                             <p className="font-medium">{user.name}</p>
-                            <p className="text-xs text-gray-500">{user.role}</p>
+                            <p className="text-xs text-gray-500">{user?.role}</p>
                         </div>
                     </button>
 

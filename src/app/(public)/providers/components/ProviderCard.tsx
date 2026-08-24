@@ -56,7 +56,7 @@ export default function ProviderCard({ provider, index }: Props) {
 
                 <div className="flex gap-2">
                     <Building2 size={18} />
-                    <span>{provider.user.role}</span>
+                    <span>{provider.user?.role}</span>
                 </div>
 
                 <div className="flex gap-2">

@@ -34,9 +34,9 @@ export default function DeskTopMenu({ user }: { user: any }) {
 
             <Link
                 href={
-                    user.role === "ADMIN"
+                    user?.role === "ADMIN"
                         ? "/admin"
-                        : user.role === "PROVIDER"
+                        : user?.role === "PROVIDER"
                             ? "/provider"
                             : "/customer"
                 }

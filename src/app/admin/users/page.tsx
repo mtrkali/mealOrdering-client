@@ -192,7 +192,7 @@ export default function AdminUsersPage() {
                                 </td>
 
                                 <td className="border p-3">
-                                    {user.role}
+                                    {user?.role}
                                 </td>
 
                                 <td className="border p-3">

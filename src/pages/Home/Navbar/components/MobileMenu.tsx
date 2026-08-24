@@ -77,7 +77,7 @@ export default function MobileMenu({ user, open }: { user: any, open: boolean })
                     <>
                         <div className="border-t pt-3">
                             <p className="font-semibold">{user.name}</p>
-                            <p className="text-sm text-gray-500">{user.role}</p>
+                            <p className="text-sm text-gray-500">{user?.role}</p>
                         </div>
 
                         <button className="mt-3 w-full rounded-lg bg-red-500 py-3 text-white">
