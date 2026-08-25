@@ -2,6 +2,7 @@
 
 import { mealService } from "@/services/meal.service";
 import { useEffect, useState } from "react";
+import { categoryService } from "@/services/category.service";
 
 export const cuisines = [
     "BANGLADESHI",
@@ -16,6 +17,7 @@ export const cuisines = [
 export default function ProviderMealsPage() {
     const [meals, setMeals] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [categories, setCategories] = useState<any[]>([])
     const [edditingMeal, setEdditingMeal] = useState<any>(null);
     const [updatingMeal, setUpdatingMeal] = useState(false);
     const [creatingMeal, setCreatingMeal] = useState(false);
@@ -30,6 +32,23 @@ export default function ProviderMealsPage() {
         categoryId: "",
     })
     const [error, setError] = useState("");
+
+    useEffect(() => {
+        const fetchCategory = async () => {
+            try {
+                const result = await categoryService.getAllCategories();
+                setCategories(result.data || []);
+            } catch (error: any) {
+                console.log("Failed to fetch categories:", error);
+
+                setError(
+                    error?.response?.data?.message ||
+                    "Failed to load categories."
+                );
+            }
+        }
+        fetchCategory()
+    }, [])
 
     useEffect(() => {
         const fetchMyMeals = async () => {
@@ -257,25 +276,28 @@ export default function ProviderMealsPage() {
 
 
                         <div>
-                            <label className="block text-sm font-medium">Meal CategoryId</label>
+                            <label className="block text-sm font-medium">Meal Category</label>
 
-                            <input
-                                type="text"
+                            <select
                                 value={newMeal.categoryId}
                                 onChange={(e) => setNewMeal({
                                     ...newMeal, categoryId: e.target.value,
                                 })
                                 }
                                 className="mt-1 border rounded w-full px-3 py-2"
-                                placeholder="Enter meal categoryId"
-                            />
+                            >
+                                <option className="bg-black" value="">select category</option>
+                                {categories.map(cat => (
+                                    <option key={cat.id} className="bg-black" value={cat.id}>{cat.name}</option>
+                                ))}
+                            </select>
                         </div>
 
                         <div>
                             <label className="block text-sm font-medium">Meal Image</label>
 
                             <input
-                                type="text"
+                                type="url"
                                 value={newMeal.image}
                                 onChange={(e) => setNewMeal({
                                     ...newMeal, image: e.target.value,
@@ -320,7 +342,7 @@ export default function ProviderMealsPage() {
                             <button
                                 type="button"
                                 onClick={() => setShowCreateForm(false)}
-                                className="px-3 py-1 rounded text-white bg-gray-400">
+                                className="px-3 border py-1 rounded text-white bg-gray-400">
                                 Cancel
                             </button>
 
@@ -441,8 +463,8 @@ export default function ProviderMealsPage() {
 
 
             {edditingMeal && (
-                <div className="fixed inset-0 z-50 bg-black-70 flex justify-center items-center p-4">
-                    <div className="bg-white rounded-lg max-w-lg w-full p-6">
+                <div className="fixed inset-0 z-50 flex justify-center items-center p-4">
+                    <div className="rounded-lg max-w-lg w-full p-6 border">
                         <h2 className="text-2xl font-bold">
                             Edit Meal
                         </h2>
@@ -489,12 +511,62 @@ export default function ProviderMealsPage() {
                             />
                         </div>
 
+                        <div>
+                            <label className="block text-sm font-medium">Meal Cuisine</label>
+
+                            <select
+                                value={edditingMeal.cuisine}
+                                onChange={(e) => setEdditingMeal({
+                                    ...edditingMeal, cuisine: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                            >
+                                {cuisines.map((cuisine, index) => (
+                                    <option key={index} value={cuisine} className="bg-black">{cuisine}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium">Meal Category</label>
+
+                            <select
+                                value={edditingMeal.categoryId}
+                                onChange={(e) => setEdditingMeal({
+                                    ...edditingMeal, categoryId: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                            >
+                                <option className="bg-black" value="">select category</option>
+                                {categories.map(cat => (
+                                    <option key={cat.id} className="bg-black" value={cat.id}>{cat.name}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium">Meal Image</label>
+
+                            <input
+                                type="url"
+                                value={edditingMeal.image}
+                                onChange={(e) => setEdditingMeal({
+                                    ...edditingMeal, image: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                            />
+                        </div>
+
+
                         <div className="mt-6 flex justify-end gap-2">
                             <button
                                 type="button"
                                 onClick={() => setEdditingMeal(null)}
                                 disabled={updatingMeal}
-                                className="px-4 py-2 text-white rounded bg-gray-500 hover:bg-gray-600">
+                                className="px-4 py-2 border text-white rounded bg-gray-500 hover:bg-gray-600">
                                 Cancel
                             </button>
 

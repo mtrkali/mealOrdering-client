@@ -6,7 +6,7 @@ import { useCart } from "../context/CartContext";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Meal as MealType } from "@/types/Meal";
-import { useEffect } from "react";
+import { useState } from "react";
 
 interface MealProps {
   meal: MealType;
@@ -15,6 +15,9 @@ interface MealProps {
 
 
 export default function Meal({ meal, index }: MealProps) {
+  const [imageSrc, setImageSrc] = useState(
+    meal.image || "https://i.ibb.co.com/V0LVNCDv/fodds4.jpg"
+  )
   const { user } = useAuth();
   const { addToCart } = useCart();
   const router = useRouter();
@@ -35,18 +38,31 @@ export default function Meal({ meal, index }: MealProps) {
     alert("Added to cart!")
   };
 
+  const isValidImageUrl = (url: string) => {
+    try {
+      const parsedUrl = new URL(url);
+
+      return (
+        parsedUrl.protocol === "http:" ||
+        parsedUrl.protocol === "https:"
+      );
+    } catch {
+      return false;
+    }
+  }
 
   return (
     <div data-aos="fade-up" data-aos-delay={index * 150} className="max-w-sm rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-white  hover:scale-102 transition duration-300">
       {/* Image */}
       <div className="h-52 w-full bg-gray-100 flex items-center justify-center">
-        {meal.image ? (
+        {isValidImageUrl(meal.image) ? (
           <Image
             src={meal.image}
             alt={meal.title}
             width={400}
             height={250}
-            className="w-full h-full object-cover" />
+            className="w-full h-full object-cover"
+            onError={(e) => e.currentTarget.style.display = "none"} />
         ) : (
           <span className="text-gray-400 text-sm">No Image Available</span>
         )}

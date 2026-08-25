@@ -93,6 +93,17 @@ const deleteOrder = async (orderId: string) => {
     )
     return response.data;
 }
+
+const getProviderOrders = async () => {
+    const response = await axios.get(
+        `${API_URL}/orders/provider`,
+        {
+            withCredentials: true,
+        }
+    );
+
+    return response.data;
+};
 export const orderService = {
     createOrder,
     getMyOrders,
@@ -100,5 +111,6 @@ export const orderService = {
     getAllOrders,
     getSingleOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getProviderOrders,
 }
