@@ -36,8 +36,20 @@ const updateMeal = async (
     return response.data;
 };
 
+const createMeal = async (data: any) => {
+    const response = await axios.post(
+        `${API_URL}/meals`,
+        data,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
 export const mealService = {
     getMyMeals,
     deleteMeal,
     updateMeal,
+    createMeal,
 };
