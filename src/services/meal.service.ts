@@ -21,7 +21,23 @@ const deleteMeal = async (mealId: string) => {
     return response.data;
 };
 
+const updateMeal = async (
+    mealId: string,
+    data: any
+) => {
+    const response = await axios.patch(
+        `${API_URL}/meals/${mealId}`,
+        data,
+        {
+            withCredentials: true,
+        }
+    );
+
+    return response.data;
+};
+
 export const mealService = {
     getMyMeals,
     deleteMeal,
+    updateMeal,
 };
