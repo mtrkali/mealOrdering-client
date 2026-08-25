@@ -37,9 +37,20 @@ const updateProviderStatus = async (providerId: string, status: string) => {
     return response.data;
 }
 
+const getProviderDashboardStats = async () => {
+    const response = await axios.get(
+        `${API_URL}/providers/dashboard/stats`,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
 export const providerService = {
     getAllProviders,
     getSingleProvider,
     getProviderMeals,
-    updateProviderStatus
+    updateProviderStatus,
+    getProviderDashboardStats
 };
