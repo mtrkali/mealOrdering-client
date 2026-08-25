@@ -10,6 +10,18 @@ const getMyMeals = async () => {
     return response.data;
 };
 
+const deleteMeal = async (mealId: string) => {
+    const response = await axios.delete(
+        `${API_URL}/meals/${mealId}`,
+        {
+            withCredentials: true,
+        }
+    );
+
+    return response.data;
+};
+
 export const mealService = {
     getMyMeals,
+    deleteMeal,
 };

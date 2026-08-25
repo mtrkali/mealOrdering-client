@@ -34,6 +34,29 @@ export default function ProviderMealsPage() {
         fetchMyMeals();
     }, []);
 
+    const handleDelete = async (mealId: string) => {
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this meal"
+        )
+        if (!confirmed) return
+        try {
+            setError("");
+            await mealService.deleteMeal(mealId);
+
+            setMeals((prev) =>
+                prev.filter((meal) => meal.id !== mealId)
+            );
+
+        } catch (error: any) {
+            console.log("Failed to delete meal", error)
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to delete meal"
+            )
+        }
+    }
+
     if (loading) {
         return (
             <main className="max-w-6xl mx-auto px-4 py-8">
@@ -100,6 +123,10 @@ export default function ProviderMealsPage() {
                                 <th className="border p-3 text-left">
                                     Created
                                 </th>
+
+                                <th className="border p-3 text-left">
+                                    Actions
+                                </th>
                             </tr>
                         </thead>
 
@@ -126,6 +153,15 @@ export default function ProviderMealsPage() {
                                         {new Date(
                                             meal.createdAt
                                         ).toLocaleDateString()}
+                                    </td>
+
+                                    <td className="border p-3">
+                                        <button
+                                            type="button"
+                                            onClick={() => handleDelete(meal.id)}
+                                            className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">
+                                            Delete
+                                        </button>
                                     </td>
                                 </tr>
                             ))}
