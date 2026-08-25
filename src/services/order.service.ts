@@ -104,7 +104,25 @@ const getProviderOrders = async () => {
 
     return response.data;
 };
+
+const updateOrder = async (
+    orderId: string,
+    status: string
+) => {
+    const response = await axios.patch(
+        `${API_URL}/orders/${orderId}`,
+        {
+            status,
+        },
+        {
+            withCredentials: true,
+        }
+    );
+
+    return response.data;
+};
 export const orderService = {
+    updateOrder,
     createOrder,
     getMyOrders,
     getMySingleOrder,
