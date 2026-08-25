@@ -3,11 +3,32 @@
 import { mealService } from "@/services/meal.service";
 import { useEffect, useState } from "react";
 
+export const cuisines = [
+    "BANGLADESHI",
+    "INDIAN",
+    "CHINESE",
+    "ITALIAN",
+    "MEXICAN",
+    "THAI",
+    "JAPANESE"
+]
+
 export default function ProviderMealsPage() {
     const [meals, setMeals] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [edditingMeal, setEdditingMeal] = useState<any>(null);
     const [updatingMeal, setUpdatingMeal] = useState(false);
+    const [creatingMeal, setCreatingMeal] = useState(false);
+    const [showCreateForm, setShowCreateForm] = useState(false);
+    const [newMeal, setNewMeal] = useState({
+        title: "",
+        price: "",
+        description: "",
+        image: "",
+        cuisine: "BANGLADESHI",
+        dietary: [] as string[],
+        categoryId: "",
+    })
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -95,6 +116,60 @@ export default function ProviderMealsPage() {
         }
     }
 
+    const handleCreatMeal = async () => {
+        try {
+            setCreatingMeal(true);
+            setError("");
+
+            if (!newMeal.title.trim()) {
+                setError("Meal title required");
+                return;
+            }
+
+            if (!newMeal.price || Number(newMeal.price) < 0) {
+                setError("Valid Meal price required")
+                return;
+            }
+            if (!newMeal.categoryId) {
+                setError("meal categoryId required");
+                return;
+            }
+
+            const result = await mealService.createMeal({
+                ...newMeal, price: Number(newMeal.price),
+            })
+
+            console.log("created meal ", result);
+            setMeals(prev => [
+                result.data,
+                ...prev
+            ]
+            )
+
+            setNewMeal({
+                title: "",
+                price: "",
+                description: "",
+                image: "",
+                cuisine: "BANGLADESHI",
+                dietary: [],
+                categoryId: "",
+            })
+
+            setShowCreateForm(false);
+
+        } catch (error: any) {
+            console.log("Failed to create meal:", error);
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to create meal."
+            );
+        } finally {
+            setCreatingMeal(false);
+        }
+    }
+
     if (loading) {
         return (
             <main className="max-w-6xl mx-auto px-4 py-8">
@@ -125,13 +200,151 @@ export default function ProviderMealsPage() {
 
     return (
         <main className="max-w-6xl mx-auto px-4 py-8">
-            <h1 className="text-3xl font-bold">
-                My Meals
-            </h1>
+            <div className="flex items-center justify-between">
+                <h1 className="text-3xl font-bold">
+                    My Meals
+                </h1>
+
+                <button
+                    type="button"
+                    onClick={() => setShowCreateForm(true)}
+                    className="px-4 py-2 rounded text-white bg-green-500 hover:bg-green-600">
+                    + Add Meal
+                </button>
+            </div>
+
 
             <p className="mt-2 text-gray-500">
                 Total Meals: {meals.length}
             </p>
+
+
+
+
+
+            {/* create Form */}
+            {showCreateForm && (
+                <div className="border rounded-lg mt-6 p-6">
+                    <h2 className="text-xl font-bold">Create new Meal</h2>
+                    <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium">Meal Title</label>
+
+                            <input
+                                type="text"
+                                value={newMeal.title}
+                                onChange={(e) => setNewMeal({
+                                    ...newMeal, title: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium">Meal Price</label>
+
+                            <input
+                                type="text"
+                                value={newMeal.price}
+                                onChange={(e) => setNewMeal({
+                                    ...newMeal, price: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                            />
+                        </div>
+
+
+                        <div>
+                            <label className="block text-sm font-medium">Meal CategoryId</label>
+
+                            <input
+                                type="text"
+                                value={newMeal.categoryId}
+                                onChange={(e) => setNewMeal({
+                                    ...newMeal, categoryId: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                                placeholder="Enter meal categoryId"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium">Meal Image</label>
+
+                            <input
+                                type="text"
+                                value={newMeal.image}
+                                onChange={(e) => setNewMeal({
+                                    ...newMeal, image: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium">Meal Cuisine</label>
+
+                            <select
+                                value={newMeal.cuisine}
+                                onChange={(e) => setNewMeal({
+                                    ...newMeal, cuisine: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                            >
+                                {cuisines.map((cuisine, index) => (
+                                    <option key={index} value={cuisine} className="bg-black">{cuisine}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium">Meal Description</label>
+
+                            <textarea
+                                value={newMeal.description}
+                                onChange={(e) => setNewMeal({
+                                    ...newMeal, description: e.target.value,
+                                })
+                                }
+                                className="mt-1 border rounded w-full px-3 py-2"
+                                rows={3}
+                            />
+                        </div>
+
+                        <div className="mt-6 flex gap-2">
+                            <button
+                                type="button"
+                                onClick={() => setShowCreateForm(false)}
+                                className="px-3 py-1 rounded text-white bg-gray-400">
+                                Cancel
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={handleCreatMeal}
+                                disabled={creatingMeal}
+                                className={`px-4 py-2 rounded text-white ${creatingMeal
+                                    ? "bg-gray-400 cursor-not-allowed"
+                                    : "bg-green-500 hover:bg-green-600"
+                                    }`}>
+                                {creatingMeal ? "Creating..." : "Create"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+
+
+
+
+
+
 
             {meals.length === 0 ? (
                 <p className="mt-6 text-gray-500">
