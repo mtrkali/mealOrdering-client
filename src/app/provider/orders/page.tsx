@@ -1,13 +1,26 @@
 "use client";
 
 import { orderService } from "@/services/order.service";
+import { router } from "better-auth/api";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+
+export const orderStatus = [
+    "PLACED",
+    "PREPARING",
+    "READY",
+    "DELIVERED",
+    "CANCELLED"
+]
+
 
 export default function ProviderOrdersPage() {
     const [orders, setOrders] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [updatingOrderId, setUpdatingOrderId] = useState<string | null>(null);
 
+    const router = useRouter();
     useEffect(() => {
         const fetchProviderOrders = async () => {
             try {
@@ -37,6 +50,33 @@ export default function ProviderOrdersPage() {
 
         fetchProviderOrders();
     }, []);
+
+
+    const handleStatusChange = async (orderId: string, status: string) => {
+        try {
+            setUpdatingOrderId(orderId);
+            setError("");
+
+            const result = await orderService.updateProvidersOrder(orderId, status);
+            console.log("order status updated :", result);
+            setOrders(prev =>
+                prev.map(order => order.id === orderId
+                    ? { ...order, status }
+                    : order
+                )
+            )
+        } catch (error: any) {
+            console.log("Failed to update order status:", error);
+
+            setError(
+                error?.response?.data?.message ||
+                error?.response?.data?.error ||
+                "Failed to update order status."
+            )
+        } finally {
+            setUpdatingOrderId(null);
+        }
+    }
 
     if (loading) {
         return (
@@ -108,6 +148,9 @@ export default function ProviderOrdersPage() {
                                 <th className="border p-3 text-left">
                                     Date
                                 </th>
+                                <th className="border p-3 text-left">
+                                    Action
+                                </th>
                             </tr>
                         </thead>
 
@@ -151,11 +194,24 @@ export default function ProviderOrdersPage() {
                                     </td>
 
                                     <td className="border p-3 font-medium">
-                                        ৳{order.totalPrice?.toFixed(2)}
+                                        ৳{order?.items
+                                            .map((item: any) => item.price * item.quantity)
+                                            .reduce((sum: number, singlePrice: number) => {
+                                                return sum + singlePrice
+                                            }, 0).toFixed(2)}
                                     </td>
 
                                     <td className="border p-3">
-                                        {order.status}
+                                        <select
+                                            value={order.status}
+                                            onChange={(e) => handleStatusChange(order.id, e.target.value)}
+                                            disabled={order.id === updatingOrderId}
+                                            className="border rounded px-2 py-1">
+                                            {orderStatus.map((status, index) => (
+                                                <option key={index} className="bg-black" value={status}>{status}</option>
+                                            ))}
+                                        </select>
+                                        {order.id === updatingOrderId && <p>Updating....</p>}
                                     </td>
 
                                     <td className="border p-3">
@@ -163,12 +219,27 @@ export default function ProviderOrdersPage() {
                                             order.createdAt
                                         ).toLocaleDateString()}
                                     </td>
+
+                                    <td className="border p-3">
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                router.push(
+                                                    `/provider/orders/${order.id}`
+                                                )
+                                            }
+                                            className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                        >
+                                            View Details
+                                        </button>
+                                    </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
                 </div>
-            )}
-        </main>
+            )
+            }
+        </main >
     );
 }

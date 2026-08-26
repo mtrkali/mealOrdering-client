@@ -105,7 +105,7 @@ const getProviderOrders = async () => {
     return response.data;
 };
 
-const updateOrder = async (
+const updateProvidersOrder = async (
     orderId: string,
     status: string
 ) => {
@@ -121,6 +121,17 @@ const updateOrder = async (
 
     return response.data;
 };
+
+const getProviderSingleOrder = async (orderId: string) => {
+    const response = await axios.get(
+        `${API_URL}/orders/provider/${orderId}`,
+        {
+            withCredentials: true,
+        }
+    );
+
+    return response.data;
+};
 export const orderService = {
     updateOrder,
     createOrder,
@@ -128,7 +139,8 @@ export const orderService = {
     getMySingleOrder,
     getAllOrders,
     getSingleOrder,
-    updateOrder,
+    updateProvidersOrder,
     deleteOrder,
     getProviderOrders,
+    getProviderSingleOrder,
 }
