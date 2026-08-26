@@ -1,12 +1,15 @@
 "use client"
 import { orderService } from "@/services/order.service";
 import { Order, OrderItem } from "@/types";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function MyOrdersPage() {
+    const router = useRouter();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState("");
+    const [deletingOrderId, setDeletingOrderId] = useState<string | null>(null)
 
     useEffect(() => {
         const fetchMyOrders = async () => {
@@ -30,6 +33,30 @@ export default function MyOrdersPage() {
         }
         fetchMyOrders();
     }, [])
+
+    const handleCancelOrder = async (orderId: string) => {
+        const confirmed = window.confirm("Are you sure you want to cancell this order?")
+        if (!confirmed) return;
+
+        try {
+            setDeletingOrderId(orderId);
+            setError("");
+
+            await orderService.deleteOrder(orderId);
+            setOrders(prev =>
+                prev.filter((singleOrder) => singleOrder.id !== orderId)
+            )
+        } catch (error: any) {
+            console.log("failed to cancel order ", error);
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to cancel order ."
+            )
+        } finally {
+            setDeletingOrderId(null);
+        }
+    }
 
     if (loading) {
         return (
@@ -180,6 +207,29 @@ export default function MyOrdersPage() {
                                             ৳ {order.totalPrice}
                                         </p>
                                     </div>
+
+
+                                    <button
+                                        type="button"
+                                        onClick={() =>
+                                            router.push(`/MyOrders/${order.id}`)
+                                        }
+                                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                                    >
+                                        View Details
+                                    </button>
+
+                                    {order?.status === "PLACED" && (
+                                        <button
+                                            type="button"
+                                            onClick={() => handleCancelOrder(order.id)}
+                                            className={`px-4 border py-2 rounded text-white ${deletingOrderId === order.id
+                                                ? "cursor-not-allowed bg-gray-400"
+                                                : "bg-red-400 hover:bg-red-500"
+                                                }`}>
+                                            {deletingOrderId === order.id ? "Deleting..." : "Delete"}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>

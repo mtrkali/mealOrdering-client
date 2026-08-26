@@ -116,6 +116,14 @@ export default function ProviderOrdersPage() {
                 Total Orders: {orders.length}
             </p>
 
+            <button
+                type="button"
+                onClick={() => router.back()}
+                className="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+            >
+                ← Back to dashboard
+            </button>
+
             {orders.length === 0 ? (
                 <p className="mt-6 text-gray-500">
                     You don't have any orders yet.

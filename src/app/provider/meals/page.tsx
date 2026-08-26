@@ -3,6 +3,7 @@
 import { mealService } from "@/services/meal.service";
 import { useEffect, useState } from "react";
 import { categoryService } from "@/services/category.service";
+import { useRouter } from "next/navigation";
 
 export const cuisines = [
     "BANGLADESHI",
@@ -15,6 +16,7 @@ export const cuisines = [
 ]
 
 export default function ProviderMealsPage() {
+    const router = useRouter();
     const [meals, setMeals] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState<any[]>([])
@@ -238,7 +240,13 @@ export default function ProviderMealsPage() {
             </p>
 
 
-
+            <button
+                type="button"
+                onClick={() => router.back()}
+                className="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+            >
+                ← Back to dashboard
+            </button>
 
 
             {/* create Form */}

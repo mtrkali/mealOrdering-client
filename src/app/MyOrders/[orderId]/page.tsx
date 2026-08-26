@@ -2,11 +2,12 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { orderService } from "@/services/order.service";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function OrderDetailsPage() {
     const user = useAuth();
+    const router = useRouter();
     console.log("current user :", user);
     const params = useParams();
     const orderId = params?.orderId as string | undefined;
@@ -86,6 +87,14 @@ export default function OrderDetailsPage() {
             <h1 className="text-3xl font-bold">
                 Order Details
             </h1>
+
+            <button
+                type="button"
+                onClick={() => router.back()}
+                className="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+            >
+                ← Back to Orders
+            </button>
 
             <div className="mt-6 space-y-6">
 

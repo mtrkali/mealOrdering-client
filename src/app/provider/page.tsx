@@ -1,6 +1,7 @@
 "use client";
 
 import { providerService } from "@/services/provider.service";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 type DashboardStats = {
@@ -10,6 +11,7 @@ type DashboardStats = {
 };
 
 export default function ProviderDashboardPage() {
+    const router = useRouter()
     const [stats, setStats] = useState<DashboardStats>({
         totalMeals: 0,
         totalOrders: 0,
@@ -90,7 +92,7 @@ export default function ProviderDashboardPage() {
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 {/* Total Meals */}
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div onClick={() => router.push(`/provider/meals`)} className="border rounded-lg p-6 shadow-sm hover:scale-105">
                     <p className="text-gray-500">
                         Total Meals
                     </p>
@@ -101,7 +103,7 @@ export default function ProviderDashboardPage() {
                 </div>
 
                 {/* Total Orders */}
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div onClick={() => router.push(`/provider/orders`)} className="border rounded-lg p-6 shadow-sm hover:scale-105">
                     <p className="text-gray-500">
                         Total Orders
                     </p>
