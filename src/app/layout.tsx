@@ -35,8 +35,10 @@ export default function RootLayout({
       <body className={`${inter.className} ${geistMono.variable} antialiased`}>
         <AuthProvider>
           <CartProvider>
-            <Navbar />
-            <AOSProvider>{children}</AOSProvider>
+            <AOSProvider>
+              <Navbar />
+              {children}
+            </AOSProvider>
           </CartProvider>
         </AuthProvider>
       </body>

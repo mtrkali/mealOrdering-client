@@ -1,5 +1,6 @@
 
 
+import { LayoutDashboard, HomeIcon, ShoppingCart, UserIcon, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
 
 export default function MobileMenu({ user, open }: { user: any, open: boolean }) {
@@ -11,60 +12,48 @@ export default function MobileMenu({ user, open }: { user: any, open: boolean })
             <div className="space-y-1 border-t px-3 py-4 md:hidden w-70 rounded-lg">
                 <Link
                     href="/"
-                    className="block rounded-lg p-3 hover:bg-green-400"
+                    className="block rounded-lg p-3 hover:bg-green-400 flex items-center gap-1"
                 >
-                    Home
+                    <HomeIcon size={18} />Home
                 </Link>
 
                 <Link
                     href="/meals"
-                    className="block rounded-lg p-3 hover:bg-green-400"
+                    className="block rounded-lg p-3 hover:bg-green-400 flex items-center gap-1"
                 >
-                    Meals
+                    <UtensilsCrossed size={18} /> Meals
                 </Link>
 
                 <Link
                     href="/providers"
-                    className="block rounded-lg p-3 hover:bg-green-400"
+                    className="block rounded-lg p-3 hover:bg-green-400 flex items-center gap-1"
                 >
-                    Providers
+                    <UserIcon size={18} /> Providers
                 </Link>
 
                 {user && (
                     <Link
                         href="/cart"
-                        className="block rounded-lg p-3 hover:bg-green-400"
+                        className="block rounded-lg p-3 hover:bg-green-400 flex items-center gap-1"
                     >
-                        Cart
+                        <ShoppingCart size={18} />  Cart
                     </Link>
                 )}
 
-                {user?.role === "CUSTOMER" && (
-                    <Link
-                        href="/MyOrders"
-                        className="block rounded-lg p-3 hover:bg-green-400"
-                    >
-                        My Orders
-                    </Link>
-                )}
+                <Link
+                    href={
+                        user?.role === "ADMIN"
+                            ? "/admin"
+                            : user?.role === "PROVIDER"
+                                ? "/provider"
+                                : "/MyOrders"
+                    }
+                    className="block rounded-lg p-3 hover:bg-green-400 flex items-center gap-1"
+                >
+                    <LayoutDashboard size={18} />
+                    {user?.role === "CUSTOMER" ? "My orders" : "Dashboard"}
+                </Link>
 
-                {user?.role === "PROVIDER" && (
-                    <Link
-                        href="/provider/dashboard"
-                        className="block rounded-lg p-3 hover:bg-green-400"
-                    >
-                        Dashboard
-                    </Link>
-                )}
-
-                {user?.role === "ADMIN" && (
-                    <Link
-                        href="/admin"
-                        className="block rounded-lg p-2 hover:bg-green-400"
-                    >
-                        Admin
-                    </Link>
-                )}
 
                 {!user ? (
                     <Link

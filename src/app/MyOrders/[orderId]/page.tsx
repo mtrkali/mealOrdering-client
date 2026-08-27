@@ -31,7 +31,7 @@ export default function OrderDetailsPage() {
                 console.log("Failed to fetch order: ", error);
 
                 setError(
-                    error?.response?.data?.message ||
+                    error?.response?.data?.error ||
                     "Failed to load order details."
                 );
             } finally {

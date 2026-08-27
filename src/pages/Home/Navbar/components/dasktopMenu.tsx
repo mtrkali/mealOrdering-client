@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ShoppingCart, LayoutDashboard, HomeIcon, ListOrderedIcon, UserIcon, UtensilsCrossed } from "lucide-react";
+import { ShoppingCart, LayoutDashboard, HomeIcon, UserIcon, UtensilsCrossed } from "lucide-react";
 
 export default function DeskTopMenu({ user }: { user: any }) {
     return (
@@ -26,11 +26,6 @@ export default function DeskTopMenu({ user }: { user: any }) {
                 </Link>
             )}
 
-            {user?.role === "CUSTOMER" && (
-                <Link href="/MyOrders" className="hover:text-green-600 flex items-center gap-1">
-                    <ListOrderedIcon size={18} /> My Orders
-                </Link>
-            )}
 
             <Link
                 href={
@@ -38,7 +33,7 @@ export default function DeskTopMenu({ user }: { user: any }) {
                         ? "/admin"
                         : user?.role === "PROVIDER"
                             ? "/provider"
-                            : "/customer"
+                            : "/MyOrders"
                 }
                 className="flex items-center gap-1 hover:text-green-600"
             >
