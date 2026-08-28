@@ -55,9 +55,39 @@ const deleteUser = async (userId: string) => {
     return response.data;
 };
 
+
+
+const getMyProfile = async () => {
+    const response = await axios.get(
+        `${API_URL}/users/me`,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
+const updateMyProfile = async (
+    updateData: {
+        name?: string,
+        phone?: string,
+        image?: string,
+    }
+) => {
+    const response = await axios.patch(
+        `${API_URL}/users/me`,
+        updateData,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
 export const userService = {
     getAllUsers,
     getSingleUser,
     updateUser,
     deleteUser,
+    getMyProfile,
+    updateMyProfile,
 };
