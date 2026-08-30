@@ -47,10 +47,39 @@ const getProviderDashboardStats = async () => {
     return response.data;
 }
 
+
+const getMyProviderProfile = async () => {
+    const response = await axios.get(
+        `${API_URL}/providers/me`,
+        {
+            withCredentials: true,
+        }
+    );
+    return response.data;
+}
+
+const updateMyProviderProfile = async (
+    updateData: {
+        businessName?: string,
+        phone?: string,
+        address?: string,
+    }) => {
+    const response = await axios.patch(
+        `${API_URL}/providers/me`,
+        updateData,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
 export const providerService = {
     getAllProviders,
     getSingleProvider,
     getProviderMeals,
     updateProviderStatus,
-    getProviderDashboardStats
+    getProviderDashboardStats,
+    getMyProviderProfile,
+    updateMyProviderProfile,
 };
