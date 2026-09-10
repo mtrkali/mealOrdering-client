@@ -4,16 +4,8 @@ import { mealService } from "@/services/meal.service";
 import { useEffect, useState } from "react";
 import { categoryService } from "@/services/category.service";
 import { useRouter } from "next/navigation";
+import { cuisines, dietaryOptions } from "../constants";
 
-export const cuisines = [
-    "BANGLADESHI",
-    "INDIAN",
-    "CHINESE",
-    "ITALIAN",
-    "MEXICAN",
-    "THAI",
-    "JAPANESE"
-]
 
 export default function ProviderMealsPage() {
     const router = useRouter();
@@ -34,6 +26,7 @@ export default function ProviderMealsPage() {
         categoryId: "",
     })
     const [error, setError] = useState("");
+
 
     useEffect(() => {
         const fetchCategory = async () => {
@@ -191,6 +184,14 @@ export default function ProviderMealsPage() {
         }
     }
 
+    const handleDietaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setNewMeal({ ...newMeal, dietary: [...newMeal.dietary, value] })
+        } else {
+            setNewMeal({ ...newMeal, dietary: [...newMeal.dietary.filter(item => item !== value)] })
+        }
+    }
     if (loading) {
         return (
             <main className="max-w-6xl mx-auto px-4 py-8">
@@ -254,6 +255,7 @@ export default function ProviderMealsPage() {
                 <div className="border rounded-lg mt-6 p-6">
                     <h2 className="text-xl font-bold">Create new Meal</h2>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* title */}
                         <div>
                             <label className="block text-sm font-medium">Meal Title</label>
 
@@ -268,6 +270,7 @@ export default function ProviderMealsPage() {
                             />
                         </div>
 
+                        {/* price */}
                         <div>
                             <label className="block text-sm font-medium">Meal Price</label>
 
@@ -282,7 +285,7 @@ export default function ProviderMealsPage() {
                             />
                         </div>
 
-
+                        {/* category */}
                         <div>
                             <label className="block text-sm font-medium">Meal Category</label>
 
@@ -301,6 +304,7 @@ export default function ProviderMealsPage() {
                             </select>
                         </div>
 
+                        {/* image */}
                         <div>
                             <label className="block text-sm font-medium">Meal Image</label>
 
@@ -315,6 +319,7 @@ export default function ProviderMealsPage() {
                             />
                         </div>
 
+                        {/* cuisine */}
                         <div>
                             <label className="block text-sm font-medium">Meal Cuisine</label>
 
@@ -332,6 +337,7 @@ export default function ProviderMealsPage() {
                             </select>
                         </div>
 
+                        {/* description */}
                         <div>
                             <label className="block text-sm font-medium">Meal Description</label>
 
@@ -346,6 +352,31 @@ export default function ProviderMealsPage() {
                             />
                         </div>
 
+                        {/* Dietary */}
+                        <div className="border rounded p-4 md:col-span-2 w-full">
+                            <p className="text-sm font-medium mb-2">
+                                Dietary preferences
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-2">
+                                {dietaryOptions.map((item) => (
+                                    <label key={item} className="flex items-center gap-2 cursor-pointer">
+                                        <input
+                                            type="checkbox"
+                                            value={item}
+                                            checked={newMeal.dietary.includes(item)}
+                                            onChange={handleDietaryChange}
+                                            className="checkbox checkbox-success checkbox-sm"
+                                        />
+                                        <span className="text-sm">
+                                            {item.replace("_", " ")}
+                                        </span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* buttons */}
                         <div className="mt-6 flex gap-2">
                             <button
                                 type="button"
@@ -442,7 +473,7 @@ export default function ProviderMealsPage() {
                                             onClick={() => setEdditingMeal({ ...meal })}
                                             className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
                                         >
-                                            Eddit
+                                            Edit
                                         </button>
 
 

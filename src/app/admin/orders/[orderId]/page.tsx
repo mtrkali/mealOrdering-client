@@ -27,8 +27,6 @@ export default function AdminOrderDetailsPage() {
                 const result =
                     await orderService.getSingleOrder(orderId);
 
-                console.log("Admin single order:", result);
-
                 setOrder(result.data);
             } catch (error: any) {
                 console.log(
@@ -61,8 +59,6 @@ export default function AdminOrderDetailsPage() {
                 orderId,
                 newStatus,
             )
-
-            console.log("Update order :", result);
 
             setOrder((prevOrder: any) => ({
                 ...prevOrder,

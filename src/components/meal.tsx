@@ -24,7 +24,7 @@ export default function Meal({ meal, index }: MealProps) {
   const pathname = usePathname() ?? "/";
 
   const handleAddToCart = (meal: MealType) => {
-    console.log("user in meal", user);
+
     if (!user) {
       router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
       return;

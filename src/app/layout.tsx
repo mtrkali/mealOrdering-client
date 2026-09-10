@@ -7,8 +7,8 @@ import "aos/dist/aos.css";
 
 import { AuthProvider } from "@/context/AuthContext";
 import { CartProvider } from "@/context/CartContext";
-import Navbar from "@/pages/Home/Navbar/Navbar";
 import AOSProvider from "@/providers/AosProvider";
+import Navbar from "@/pages/Home/Navbar/Navbar";
 
 const inter = Inter({
   subsets: ["latin"],

@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 export default function OrderDetailsPage() {
     const user = useAuth();
     const router = useRouter();
-    console.log("current user :", user);
     const params = useParams();
     const orderId = params?.orderId as string | undefined;
 

@@ -34,8 +34,6 @@ export default function AdminProfilePage() {
 
                 const result = await userService.getMyProfile();
 
-                console.log("Admin profile:", result);
-
                 const user = result.data;
 
                 setProfile(user);
@@ -71,7 +69,6 @@ export default function AdminProfilePage() {
                 image: image.trim(),
             });
 
-            console.log("Updated admin profile:", result);
 
             setProfile(result.data);
 

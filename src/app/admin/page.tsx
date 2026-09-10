@@ -2,6 +2,7 @@
 import { adminService } from "@/services/admin.service";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
 
 type DashboardStats = {
     totalUsers: number;
@@ -32,7 +33,7 @@ export default function AdminDashboardPage() {
                 setError("");
 
                 const result = await adminService.getDashBoardStats();
-                console.log("Admin deshboard stats: ", result);
+
                 setStats(result.data);
             } catch (error: any) {
                 console.log("Failed to load dashboard data.")
@@ -86,7 +87,9 @@ export default function AdminDashboardPage() {
             </p>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div onClick={() => router.push("/admin/users")} className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
+
+                {/* users */}
+                <div className="border rounded-lg p-6 shadow-sm">
                     <p className="text-gray-500">
                         Total Users
                     </p>
@@ -94,9 +97,18 @@ export default function AdminDashboardPage() {
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalUsers}
                     </h2>
+
+                    <button
+                        type="button"
+                        onClick={() => router.push("/admin/users")}
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                    >
+                        go to users <FaArrowRight size={18} />
+                    </button>
                 </div>
 
-                <div onClick={() => router.push("/admin/orders")} className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
+                {/* orders */}
+                <div className="border rounded-lg p-6 shadow-sm">
                     <p className="text-gray-500">
                         Total Orders
                     </p>
@@ -104,9 +116,18 @@ export default function AdminDashboardPage() {
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalOrders}
                     </h2>
+
+                    <button
+                        type="button"
+                        onClick={() => router.push("/admin/orders")}
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                    >
+                        go to orders <FaArrowRight size={18} />
+                    </button>
                 </div>
 
-                <div className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
+                {/* Revenue */}
+                <div className="border rounded-lg p-6 shadow-sm">
                     <p className="text-gray-500">
                         Total Revenue
                     </p>
@@ -116,7 +137,8 @@ export default function AdminDashboardPage() {
                     </h2>
                 </div>
 
-                <div onClick={() => router.push("/admin/providers")} className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
+                {/* Providers */}
+                <div className="border rounded-lg p-6 shadow-sm ">
                     <p className="text-gray-500">
                         Total providers
                     </p>
@@ -124,9 +146,19 @@ export default function AdminDashboardPage() {
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalProviders}
                     </h2>
+
+                    <button
+                        type="button"
+                        onClick={() => router.push("/admin/providers")}
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                    >
+                        go to providers <FaArrowRight size={18} />
+                    </button>
                 </div>
 
-                <div className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
+
+                {/* meals */}
+                <div className="border rounded-lg p-6 shadow-sm ">
                     <p className="text-gray-500">
                         Total Meals
                     </p>
@@ -134,9 +166,19 @@ export default function AdminDashboardPage() {
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalMeals}
                     </h2>
+
+                    <button
+                        type="button"
+                        onClick={() => router.push("/admin/users")}
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                    >
+                        go to meals <FaArrowRight size={18} />
+                    </button>
                 </div>
 
-                <div onClick={() => router.push("/admin/provider-applications")} className="border rounded-lg p-6 shadow-sm hover:scale-105 hover:translate-y-[-1] transition-transform duration-300">
+
+                {/* provider application */}
+                <div onClick={() => router.push("/admin/provider-applications")} className="border rounded-lg p-6 shadow-sm ">
                     <p className="text-gray-500">
                         Total provider application
                     </p>
@@ -144,6 +186,13 @@ export default function AdminDashboardPage() {
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalApplicantProvider}
                     </h2>
+
+                    <button
+                        type="button"
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                    >
+                        go to applications <FaArrowRight size={18} />
+                    </button>
                 </div>
             </div>
         </main>

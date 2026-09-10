@@ -1,14 +1,19 @@
 "use client";
 
+
+import { useAuth } from "@/context/AuthContext";
 import { authClient, signInWithGoogle } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function LoginForm() {
   const router = useRouter();
-  const { data: session, isPending, error, refetch } = authClient.useSession();
+  const [signing, setSinging] = useState(false);
+  const { getUser } = useAuth() || {};
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
+      setSinging(true);
       e.preventDefault();
       const formData = new FormData(e.currentTarget);
       const email = formData.get("email");
@@ -19,9 +24,12 @@ export default function LoginForm() {
         password: password as string,
       });
 
+      await getUser();
       router.push("/");
     } catch (error) {
       console.log(error);
+    } finally {
+      setSinging(false);
     }
   };
 
@@ -80,8 +88,9 @@ export default function LoginForm() {
           <button
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            disabled={signing}
           >
-            Sign in
+            {signing ? "Login..." : "Login"}
           </button>
         </div>
       </form>

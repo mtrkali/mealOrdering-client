@@ -10,17 +10,15 @@ export default function AddToCart({ meal }: any) {
   const handleClick = async () => {
     setDisable(true);
     addToCart(meal);
-    await new Promise((res) => setTimeout(res,300))
-    console.log("items added");
+    await new Promise((res) => setTimeout(res, 300))
     setDisable(false);
   };
 
   return (
     <button
       disabled={disable}
-      className={`border-0 rounded px-2 py-1 transition ${
-        disable ? "bg-stone-400" : "bg-blue-300 hover:scale-105"
-      }`}
+      className={`border-0 rounded px-2 py-1 transition ${disable ? "bg-stone-400" : "bg-blue-300 hover:scale-105"
+        }`}
       onClick={handleClick}
     >
       Add to Cart +

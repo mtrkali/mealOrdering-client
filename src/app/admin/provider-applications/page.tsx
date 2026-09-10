@@ -20,8 +20,6 @@ export default function AdminProviderApplicationsPage() {
                 const result =
                     await providerApplicationService.getAllProviderApplications();
 
-                console.log("Provider applications:", result);
-
                 setApplications(result.data || []);
             } catch (error: any) {
                 console.log(

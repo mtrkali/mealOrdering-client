@@ -1,5 +1,5 @@
 export default async function ProviderHero({ provider }: { provider: any }) {
-    console.log("provider in ProviderHero", provider);
+
 
     return (
         <div className="relative">

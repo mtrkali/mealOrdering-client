@@ -32,15 +32,6 @@ export default function AdminProviderDetailsPage() {
                         ),
                     ]);
 
-                console.log(
-                    "Admin provider:",
-                    providerResult
-                );
-
-                console.log(
-                    "Provider meals:",
-                    mealsResult
-                );
 
                 setProvider(providerResult.data);
                 setMeals(mealsResult.data || []);
@@ -70,7 +61,6 @@ export default function AdminProviderDetailsPage() {
             setError("");
 
             const result = await providerService.updateProviderStatus(providerId, newStatus);
-            console.log("update orders :", result);
 
             setProvider((prevProvider: any) => ({
                 ...prevProvider,

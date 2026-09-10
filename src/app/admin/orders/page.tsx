@@ -18,8 +18,6 @@ export default function AdminOrdersPage() {
 
                 const result = await orderService.getAllOrders();
 
-                console.log("Admin orders:", result);
-
                 setOrders(result.data || []);
             } catch (error: any) {
                 console.log("Failed to fetch admin orders:", error);
@@ -104,6 +102,9 @@ export default function AdminOrdersPage() {
                             <th className="border p-3 text-left">
                                 Date
                             </th>
+                            <th className="border p-3 text-left">
+                                Action
+                            </th>
                         </tr>
                     </thead>
 
@@ -111,7 +112,6 @@ export default function AdminOrdersPage() {
                         {orders.map((order) => (
                             <tr
                                 key={order.id}
-                                onClick={() => router.push(`/admin/orders/${order.id}`)}
                                 className="cursor-pointer hover:bg-gray-50"
                             >
                                 <td className="border p-3">
@@ -144,6 +144,15 @@ export default function AdminOrdersPage() {
                                     {new Date(
                                         order.createdAt
                                     ).toLocaleDateString()}
+                                </td>
+
+                                <td className="border p-3">
+                                    <button
+                                        className="px-4 py-1 rounded border bg-blue-500 hover:scale-105"
+                                        onClick={() => router.push(`/admin/orders/${order.id}`)}
+                                    >
+                                        Details
+                                    </button>
                                 </td>
                             </tr>
                         ))}

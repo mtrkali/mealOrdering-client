@@ -8,13 +8,13 @@ export default async function MealDetails({
   const { id } = await params;
 
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/meals/${id}`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/meals/${id}`,
     {
       cache: "no-store",
     },
   );
   if (!res.ok) console.log("meal fetch failed");
-  const meal = await res.json();
+  const { data: meal } = await res.json();
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
       <div className="max-w-3xl w-full bg-white rounded-2xl shadow-lg p-6 space-y-6">

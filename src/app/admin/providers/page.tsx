@@ -19,8 +19,6 @@ export default function AdminProvidersPage() {
                 const result =
                     await providerService.getAllProviders();
 
-                console.log("Admin providers:", result);
-
                 setProviders(result.data || []);
             } catch (error: any) {
                 console.log(

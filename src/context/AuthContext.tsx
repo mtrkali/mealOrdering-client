@@ -13,7 +13,8 @@ export const AuthProvider = ({ children }: any) => {
     try {
       setLoading(true)
       const { data } = await authClient.getSession()
-      setUser(data?.user);
+
+      setUser(data?.user ?? null);
     } catch (error) {
       setUser(null);
     } finally {
@@ -26,7 +27,7 @@ export const AuthProvider = ({ children }: any) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user, loading, setUser, getUser }}>
       {children}
     </AuthContext.Provider>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/context/AuthContext";
 import { imageService } from "@/services/image.service";
 import { userService } from "@/services/user.service";
 import { useEffect, useState } from "react";
@@ -16,6 +17,7 @@ type UserProfile = {
 }
 
 export default function ProfilePage() {
+    const { getUser } = useAuth();
     const [user, setUser] = useState<UserProfile | null>(null);
 
     const [name, setName] = useState("");
@@ -89,8 +91,11 @@ export default function ProfilePage() {
             setSuccess("");
 
             const imageUrl = await imageService.uploadImageToImgBB(selectedImage);
+            const result = await userService.updateMyProfile({ image: imageUrl });
+            setUser(result.data);
             setSuccess("Image uploaded successfully.");
-            console.log("Image URL:", imageUrl);
+            getUser();
+            setSelectedImage(null);
         } catch (error: any) {
             console.log("Failed to upload image: ", error);
 

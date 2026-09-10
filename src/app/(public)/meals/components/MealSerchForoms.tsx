@@ -10,6 +10,9 @@ export default function MealSearchForm({
     value,
 }: MealSearchFormProps) {
     const {
+        minPrice,
+        maxPrice,
+        cuisine,
         setMinPrice,
         setMaxPrice,
         setCuisine,
@@ -17,6 +20,7 @@ export default function MealSearchForm({
         fetchMeals,
         loading,
         dietary,
+        paramslength,
     } = value;
 
     const handleDietaryChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -44,6 +48,7 @@ export default function MealSearchForm({
                 <input
                     type="number"
                     placeholder="0"
+                    value={minPrice ?? ""}
                     onChange={(e) => setMinPrice(e.target.value)}
                     className="border rounded-sm p-1 w-full"
                 />
@@ -57,7 +62,8 @@ export default function MealSearchForm({
 
                 <input
                     type="number"
-                    placeholder="1000"
+                    value={maxPrice ?? ""}
+                    placeholder="0"
                     onChange={(e) => setMaxPrice(e.target.value)}
                     className="border rounded-sm p-1 w-full"
                 />
@@ -71,7 +77,7 @@ export default function MealSearchForm({
 
                 <select
                     className="border p-1 rounded-sm w-full"
-                    defaultValue=""
+                    value={cuisine}
                     onChange={(e) => setCuisine(e.target.value)}
                 >
                     <option value="">All</option>

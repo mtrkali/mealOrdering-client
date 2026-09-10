@@ -3,6 +3,7 @@
 import { providerService } from "@/services/provider.service";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { FaArrowRight } from "react-icons/fa";
 
 type DashboardStats = {
     totalMeals: number;
@@ -92,7 +93,7 @@ export default function ProviderDashboardPage() {
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
                 {/* Total Meals */}
-                <div onClick={() => router.push(`/provider/meals`)} className="border rounded-lg p-6 shadow-sm hover:scale-105">
+                <div className="border rounded-lg p-6 shadow-sm">
                     <p className="text-gray-500">
                         Total Meals
                     </p>
@@ -100,10 +101,18 @@ export default function ProviderDashboardPage() {
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalMeals}
                     </h2>
+
+                    <button
+                        type="button"
+                        onClick={() => router.push(`/provider/meals`)}
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                    >
+                        go to meals <FaArrowRight size={18} />
+                    </button>
                 </div>
 
                 {/* Total Orders */}
-                <div onClick={() => router.push(`/provider/orders`)} className="border rounded-lg p-6 shadow-sm hover:scale-105">
+                <div className="border rounded-lg p-6 shadow-sm">
                     <p className="text-gray-500">
                         Total Orders
                     </p>
@@ -111,6 +120,14 @@ export default function ProviderDashboardPage() {
                     <h2 className="mt-2 text-3xl font-bold">
                         {stats.totalOrders}
                     </h2>
+
+                    <button
+                        type="button"
+                        onClick={() => router.push(`/provider/orders`)}
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                    >
+                        go to orders <FaArrowRight size={18} />
+                    </button>
                 </div>
 
                 {/* Total Revenue */}

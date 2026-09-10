@@ -20,6 +20,7 @@ export default function PublicMeals() {
   const [dietary, setDietary] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [paramslength, setParamslength] = useState(0);
 
 
   // const searchRef = useRef<HTMLDivElement>(null);
@@ -37,8 +38,8 @@ export default function PublicMeals() {
       if (cuisine) params.append("cuisine", cuisine);
 
       dietary.forEach((item) => params.append("dietary", item));
-      console.log('this is params', params)
 
+      setParamslength(params.size);
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/meals?${params}`,
         { credentials: "include" }
       )
@@ -73,7 +74,7 @@ export default function PublicMeals() {
 
 
         <div
-          className={`absolute top-14 right-0 overflow-hidden transition-all duration-500 z-50 
+          className={`absolute fixed top-14 right-0 overflow-hidden transition-all duration-500 z-50 
            ${searchOpen
               ? "max-h-[600px] opacity-100"
               : "max-h-0 opacity-0 pointer-events-none"}
@@ -83,6 +84,9 @@ export default function PublicMeals() {
 
           <MealSearchForm
             value={{
+              minPrice,
+              maxPrice,
+              cuisine,
               setMinPrice,
               setMaxPrice,
               setCuisine,
@@ -90,6 +94,7 @@ export default function PublicMeals() {
               fetchMeals,
               loading,
               dietary,
+              paramslength,
             }}
           />
 

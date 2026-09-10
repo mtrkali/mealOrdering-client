@@ -27,19 +27,21 @@ export default function DeskTopMenu({ user }: { user: any }) {
             )}
 
 
-            <Link
-                href={
-                    user?.role === "ADMIN"
-                        ? "/admin"
-                        : user?.role === "PROVIDER"
-                            ? "/provider"
-                            : "/MyOrders"
-                }
-                className="flex items-center gap-1 hover:text-green-600"
-            >
-                <LayoutDashboard size={18} />
-                Dashboard
-            </Link>
+            {user && (
+                <Link
+                    href={
+                        user?.role === "ADMIN"
+                            ? "/admin"
+                            : user?.role === "PROVIDER"
+                                ? "/provider"
+                                : "/MyOrders"
+                    }
+                    className="flex items-center gap-1 hover:text-green-600"
+                >
+                    <LayoutDashboard size={18} />
+                    Dashboard
+                </Link>
+            )}
 
         </div>
     )
