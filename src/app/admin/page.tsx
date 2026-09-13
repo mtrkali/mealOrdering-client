@@ -126,16 +126,6 @@ export default function AdminDashboardPage() {
                     </button>
                 </div>
 
-                {/* Revenue */}
-                <div className="border rounded-lg p-6 shadow-sm">
-                    <p className="text-gray-500">
-                        Total Revenue
-                    </p>
-
-                    <h2 className="mt-2 text-3xl font-bold">
-                        {stats.totalRevenue.toFixed(2)}
-                    </h2>
-                </div>
 
                 {/* Providers */}
                 <div className="border rounded-lg p-6 shadow-sm ">
@@ -174,6 +164,17 @@ export default function AdminDashboardPage() {
                     >
                         go to meals <FaArrowRight size={18} />
                     </button>
+                </div>
+
+                {/* Revenue */}
+                <div className="border rounded-lg p-6 shadow-sm">
+                    <p className="text-gray-500">
+                        Total Revenue
+                    </p>
+
+                    <h2 className="mt-2 text-3xl font-bold">
+                        {stats.totalRevenue.toFixed(2)}
+                    </h2>
                 </div>
 
 

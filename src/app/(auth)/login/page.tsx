@@ -1,22 +1,72 @@
+
 import LoginForm from "./components/login-form";
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img
-          alt="Your Company"
-          src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-          className="mx-auto h-10 w-auto"
-        />
-        <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
-      </div>
+    <main className="min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto flex min-h-[calc(100vh-4rem)] w-full max-w-6xl items-center justify-center">
+        <div className="grid w-full overflow-hidden rounded-3xl bg-white shadow-xl ring-1 ring-gray-100 lg:grid-cols-2">
 
-      <LoginForm />
-    </div>
+          {/* Left Side */}
+          <div className="hidden bg-green-600 p-10 text-white lg:flex lg:flex-col lg:justify-between xl:p-14">
+            <div>
+              <div className="flex items-center gap-3">
+                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-white text-xl font-bold text-green-600">
+                  F
+                </div>
+
+                <span className="text-2xl font-bold">FoodHub</span>
+              </div>
+
+              <div className="mt-20">
+                <h1 className="max-w-md text-4xl font-bold leading-tight xl:text-5xl">
+                  Delicious meals,
+                  <br />
+                  delivered to you.
+                </h1>
+
+                <p className="mt-6 max-w-md text-base leading-7 text-green-50">
+                  Discover delicious meals from local providers and order your
+                  favorite food from FoodHub.
+                </p>
+              </div>
+            </div>
+
+            <p className="text-sm text-green-100">
+              © {new Date().getFullYear()} FoodHub. All rights reserved.
+            </p>
+          </div>
+
+          {/* Right Side */}
+          <div className="flex items-center justify-center p-6 sm:p-10 lg:p-12 xl:p-14">
+            <div className="w-full max-w-md">
+              {/* Mobile Logo */}
+              <div className="mb-8 flex items-center justify-center gap-3 lg:hidden">
+                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-green-600 text-lg font-bold text-white">
+                  F
+                </div>
+
+                <span className="text-2xl font-bold text-gray-900">
+                  FoodHub
+                </span>
+              </div>
+
+              <div className="mb-8 text-center lg:text-left">
+                <h2 className="text-3xl font-bold tracking-tight text-gray-900">
+                  Welcome back 👋
+                </h2>
+
+                <p className="mt-2 text-sm text-gray-500">
+                  Sign in to continue to your FoodHub account.
+                </p>
+              </div>
+
+              <LoginForm />
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
 
-// client and server data fetch example with auth + stripe

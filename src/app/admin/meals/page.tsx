@@ -1,6 +1,6 @@
 "use client";
 
-import { cuisines } from "@/app/provider/constants";
+import { cuisines, dietaryOptions } from "@/app/provider/constants";
 import { mealService } from "@/services/meal.service";
 import { useEffect, useState } from "react";
 
@@ -105,7 +105,9 @@ export default function AdminMealsPage() {
             const updatedData = {
                 title: formData.get("title"),
                 price: Number(formData.get("price")),
+                image: formData.get("image"),
                 cuisine: formData.get("cuisine"),
+                dietary: formData.getAll("dietary"),
                 description: formData.get("description"),
             };
 
@@ -140,6 +142,15 @@ export default function AdminMealsPage() {
         }
     };
 
+
+    const handleDietaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { value, checked } = e.target;
+        if (checked) {
+            setEditingMeal({})
+        } else {
+            setEditingMeal({})
+        }
+    }
 
     if (loading) {
         return (
@@ -222,7 +233,7 @@ export default function AdminMealsPage() {
 
                             <tbody className="divide-y text-black">
                                 {meals.map((meal) => (
-                                    <tr key={meal.id}>
+                                    <tr key={meal.id} className="hover:scale-102 border rounded transition">
                                         {/* Meal */}
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-3">
@@ -387,6 +398,39 @@ export default function AdminMealsPage() {
                                     required
                                     className="w-full rounded-lg border px-3 py-2 outline-none focus:border-blue-500"
                                 />
+                            </div>
+
+                            {/* image */}
+                            <div>
+                                <label className="mb-1 block text-sm font-medium">
+                                    Meal Image
+                                </label>
+
+                                <input
+                                    name="image"
+                                    defaultValue={editingMeal.image}
+                                    required
+                                    className="w-full rounded-lg border px-3 py-2 outline-none focus:border-blue-500"
+                                />
+                            </div>
+
+                            {/* dietary */}
+                            <div>
+                                <label htmlFor="" className="mb-2 block text-sm font-medium">Dietary</label>
+
+                                <div className="grid grid-cols-2 gap-2 border rounded-lg p-4">
+                                    {dietaryOptions.map((item, index) => (
+                                        <label key={index} htmlFor="" className="flex items-center gap-2">
+                                            <input
+                                                type="checkbox"
+                                                name="dietary"
+                                                value={item}
+                                                defaultChecked={editingMeal.dietary?.includes(item)}
+                                            />
+                                            <span className="text-sm">{item}</span>
+                                        </label>
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Price */}

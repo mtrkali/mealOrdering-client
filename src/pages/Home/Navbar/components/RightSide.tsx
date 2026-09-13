@@ -1,13 +1,14 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { authClient } from "@/lib/auth-client";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function RightSide({ user }: { user: any }) {
     const router = useRouter();
     const { user: authUser, setUser } = useAuth() || {};
+    const [loading, setLoading] = useState(false);
     return (
         <div className="hidden md:flex items-center gap-4">
             {!user ? (
@@ -39,25 +40,33 @@ export default function RightSide({ user }: { user: any }) {
                     </button>
 
                     {/* Dropdown */}
-                    <div className="absolute bg-black right-0 hidden w-48 rounded-xl border shadow-lg group-hover:block">
-                        <button onClick={() => router.push("/profile")} className="w-full px-4 py-3 text-left hover:bg-green-500 rounded">
+                    <div className="absolute bg-black right-0 hidden w-48 rounded-xl shadow-lg group-hover:block">
+                        <button onClick={() => router.push("/profile")} className="w-full px-4 py-3 text-left hover:bg-green-700 rounded rounded">
                             Profile
                         </button>
 
                         <button
+                            disabled={loading}
                             onClick={async () => {
-                                await authClient.signOut({
-                                    fetchOptions: {
-                                        onSuccess: () => {
-                                            setUser(null);
-                                            router.push("/login");
+                                try {
+                                    setLoading(true);
+                                    await authClient.signOut({
+                                        fetchOptions: {
+                                            onSuccess: () => {
+                                                setUser(null);
+                                                router.push("/login");
+                                            }
                                         }
-                                    }
-                                })
+                                    })
+                                } catch (error: any) {
+                                    console.log("logout failed!!", error)
+                                } finally {
+                                    setLoading(false);
+                                }
                             }}
-                            className="w-full px-4 py-3 text-left text-red-600 hover:bg-green-500"
+                            className="w-full px-4 py-3 text-left text-red-600 hover:bg-green-700 rounded"
                         >
-                            Logout
+                            {loading ? "logout..." : "logout"}
                         </button>
                     </div>
                 </div>
