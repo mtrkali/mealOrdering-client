@@ -10,6 +10,9 @@ export default function LoginForm() {
   const router = useRouter();
   const [signing, setSinging] = useState(false);
   const [socialLoading, setSocialLoading] = useState("");
+  const [unverifiedEmail, setUnverifiedEmail] = useState("");
+  const [resending, setResending] = useState(false);
+  const [resendMessage, setResendMessage] = useState("");
   const { getUser } = useAuth() || {};
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -24,19 +27,51 @@ export default function LoginForm() {
 
       if (!email || !password) return;
 
-      await authClient.signIn.email({
-        email: email as string,
-        password: password as string,
-      });
+      const { data, error } = await authClient.signIn.email(
+        {
+          email: email as string,
+          password: password as string,
+        });
 
-      await getUser();
-      router.push("/");
+      if (error) {
+        if (error.status === 403) {
+          setUnverifiedEmail(email as string);
+          return;
+        }
+        console.log("Login error ", error);
+        return;
+      }
+
+      if (data) {
+        await getUser();
+        router.push("/")
+      }
+
     } catch (error) {
       console.log(error);
     } finally {
       setSinging(false);
     }
   };
+
+  const handleResendVerification = async () => {
+    if (!unverifiedEmail) return;
+
+    try {
+      setResending(true);
+      setResendMessage("");
+
+      await authClient.sendVerificationEmail({
+        email: unverifiedEmail,
+        callbackURL: "/login",
+      })
+      setResendMessage("resend veirfication email sent. please check you email inbox")
+    } catch (error: any) {
+      console.log("Resend verification message failed ", error);
+
+      setResendMessage("Failed tot resend varification message. Please try again")
+    } finally { setResending(false) }
+  }
 
   const handleGoogleLogin = async () => {
     try {
@@ -60,6 +95,8 @@ export default function LoginForm() {
       setSocialLoading("");
     }
   };
+
+  console.log("this is unverified email ", unverifiedEmail);
 
   return (
     <div className="w-full">
@@ -129,6 +166,33 @@ export default function LoginForm() {
           )}
         </button>
       </form>
+
+      {unverifiedEmail && (
+        <div className="mt-5 rounded-xl border border-yellow-200 bg-yellow-50 p-4">
+          <p className="text-sm font-medium text-yellow-800">
+            Your email is not verified yet.
+          </p>
+
+          <p className="mt-1 text-sm text-yellow-700">
+            Please verify your email before logging in.
+          </p>
+
+          <button
+            type="button"
+            onClick={handleResendVerification}
+            disabled={resending}
+            className="mt-3 text-sm font-semibold text-green-600 transition hover:text-green-700 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {resending ? "Sending..." : "Resend verification email"}
+          </button>
+
+          {resendMessage && (
+            <p className="mt-2 text-xs text-gray-600">
+              {resendMessage}
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Divider */}
       <div className="my-7 flex items-center gap-4">
