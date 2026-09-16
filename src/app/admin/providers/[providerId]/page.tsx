@@ -15,6 +15,7 @@ export default function AdminProviderDetailsPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [updating, setUpdating] = useState(false);
+    const [deleting, setDeleting] = useState(false);
 
     useEffect(() => {
         const fetchProviderDetails = async () => {
@@ -24,14 +25,9 @@ export default function AdminProviderDetailsPage() {
 
                 const [providerResult, mealsResult] =
                     await Promise.all([
-                        providerService.getSingleProvider(
-                            providerId
-                        ),
-                        providerService.getProviderMeals(
-                            providerId
-                        ),
+                        providerService.getSingleProvider(providerId),
+                        providerService.getProviderMeals(providerId),
                     ]);
-
 
                 setProvider(providerResult.data);
                 setMeals(mealsResult.data || []);
@@ -60,23 +56,60 @@ export default function AdminProviderDetailsPage() {
             setUpdating(true);
             setError("");
 
-            const result = await providerService.updateProviderStatus(providerId, newStatus);
+            await providerService.updateProviderStatus(
+                providerId,
+                newStatus
+            );
 
             setProvider((prevProvider: any) => ({
                 ...prevProvider,
                 status: newStatus,
-            }))
+            }));
         } catch (error: any) {
-            console.log("Failed to update provider status ", error)
+            console.log(
+                "Failed to update provider status",
+                error
+            );
 
             setError(
                 error?.response?.data?.message ||
                 "Failed to update provider status"
-            )
+            );
         } finally {
             setUpdating(false);
         }
-    }
+    };
+
+    const handleDeleteProvider = async () => {
+        const confirmed = window.confirm(
+            `Are you sure you want to delete ${provider?.businessName}? This will delete the provider profile and their meals.`
+        );
+
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+            setDeleting(true);
+            setError("");
+
+            await providerService.deleteProvider(providerId);
+
+            router.push("/admin/providers");
+        } catch (error: any) {
+            console.log(
+                "Failed to delete provider:",
+                error
+            );
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to delete provider"
+            );
+        } finally {
+            setDeleting(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -191,23 +224,53 @@ export default function AdminProviderDetailsPage() {
 
                         <select
                             value={provider.status}
-                            onChange={(e) => handleUpdateStatus(e.target.value)}
-                            disabled={updating}
-                            className={`px-4 py-2 mt-1 border rounded ${updating
+                            onChange={(e) =>
+                                handleUpdateStatus(e.target.value)
+                            }
+                            disabled={updating || deleting}
+                            className={`px-4 py-2 mt-1 border rounded ${updating || deleting
                                 ? "cursor-not-allowed"
                                 : ""
                                 }`}
                         >
-                            <option value="ACTIVE" className="text-black">Active</option>
-                            <option value="INACTIVE" className="text-black">DeActive</option>
+                            <option
+                                value="ACTIVE"
+                                className="text-black"
+                            >
+                                Active
+                            </option>
+
+                            <option
+                                value="INACTIVE"
+                                className="text-black"
+                            >
+                                DeActive
+                            </option>
                         </select>
+
                         {updating && (
                             <p className="mt-1 text-sm text-gray-500">
                                 Updating...
                             </p>
                         )}
-
                     </div>
+                </div>
+
+                {/* Delete Provider */}
+                <div className="mt-8 pt-6 border-t">
+                    <button
+                        type="button"
+                        onClick={handleDeleteProvider}
+                        disabled={deleting || updating}
+                        className={`px-4 py-2 border rounded text-white ${deleting || updating
+                            ? "bg-red-300 cursor-not-allowed"
+                            : "bg-red-600 hover:bg-red-700"
+                            }`}
+                    >
+                        {deleting
+                            ? "Deleting Provider..."
+                            : "Delete Provider"}
+                    </button>
                 </div>
             </div>
 
