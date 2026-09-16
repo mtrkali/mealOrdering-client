@@ -116,7 +116,7 @@ export default function AdminMealsPage() {
                 updatedData
             );
 
-            console.log("Updated meal:", result);
+            console.log("Updated meal is:", result);
 
             setMeals((previousMeals) =>
                 previousMeals.map((meal) =>
