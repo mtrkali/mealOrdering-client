@@ -113,7 +113,7 @@ export default function AdminOrderDetailsPage() {
                     Order Details
                 </h1>
 
-                <p className="mt-6 text-gray-500">
+                <p className="mt-6 text-gray-500 animate animate-pulse">
                     Loading order...
                 </p>
             </main>
@@ -147,7 +147,7 @@ export default function AdminOrderDetailsPage() {
     }
 
     return (
-        <main className="max-w-6xl mx-auto px-4 py-8">
+        <main data-aos="zoom-in" className="max-w-6xl mx-auto px-4 py-8">
             <button
                 type="button"
                 onClick={() => router.back()}

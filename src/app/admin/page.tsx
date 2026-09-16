@@ -77,7 +77,7 @@ export default function AdminDashboardPage() {
         )
     }
     return (
-        <main className="max-w-6xl mx-auto px-4 py-8">
+        <main data-aos="zoom-in" className="max-w-6xl mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold">
                 Admin Dashboard
             </h1>
@@ -85,11 +85,21 @@ export default function AdminDashboardPage() {
             <p className="mt-2 text-gray-600">
                 Welcome to the Admin Dashboard.
             </p>
+            {/* Revenue */}
+            <div data-aos="zoom-out" data-aos-delay="1400" className="border rounded-lg p-6 shadow-sm mt-4">
+                <p className="text-gray-500">
+                    Total Revenue
+                </p>
+
+                <h2 className="mt-2 text-3xl font-bold">
+                    {stats.totalRevenue.toFixed(2)}
+                </h2>
+            </div>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
                 {/* users */}
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div data-aos="zoom-out" data-aos-delay="100" className="border rounded-lg p-6 shadow-sm">
                     <p className="text-gray-500">
                         Total Users
                     </p>
@@ -99,6 +109,8 @@ export default function AdminDashboardPage() {
                     </h2>
 
                     <button
+                        data-aos="fade-right"
+                        data-aos-delay="2000"
                         type="button"
                         onClick={() => router.push("/admin/users")}
                         className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
@@ -108,7 +120,7 @@ export default function AdminDashboardPage() {
                 </div>
 
                 {/* orders */}
-                <div className="border rounded-lg p-6 shadow-sm">
+                <div data-aos="zoom-out" data-aos-delay="300" className="border rounded-lg p-6 shadow-sm">
                     <p className="text-gray-500">
                         Total Orders
                     </p>
@@ -119,6 +131,8 @@ export default function AdminDashboardPage() {
 
                     <button
                         type="button"
+                        data-aos="fade-right"
+                        data-aos-delay="2500"
                         onClick={() => router.push("/admin/orders")}
                         className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
                     >
@@ -128,7 +142,7 @@ export default function AdminDashboardPage() {
 
 
                 {/* Providers */}
-                <div className="border rounded-lg p-6 shadow-sm ">
+                <div data-aos="zoom-out" data-aos-delay="600" className="border rounded-lg p-6 shadow-sm ">
                     <p className="text-gray-500">
                         Total providers
                     </p>
@@ -139,6 +153,8 @@ export default function AdminDashboardPage() {
 
                     <button
                         type="button"
+                        data-aos="fade-right"
+                        data-aos-delay="3000"
                         onClick={() => router.push("/admin/providers")}
                         className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
                     >
@@ -148,7 +164,7 @@ export default function AdminDashboardPage() {
 
 
                 {/* meals */}
-                <div className="border rounded-lg p-6 shadow-sm ">
+                <div data-aos="zoom-out" data-aos-delay="1000" className="border rounded-lg p-6 shadow-sm ">
                     <p className="text-gray-500">
                         Total Meals
                     </p>
@@ -159,6 +175,8 @@ export default function AdminDashboardPage() {
 
                     <button
                         type="button"
+                        data-aos="fade-right"
+                        data-aos-delay="3500"
                         onClick={() => router.push("/admin/meals")}
                         className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
                     >
@@ -166,20 +184,11 @@ export default function AdminDashboardPage() {
                     </button>
                 </div>
 
-                {/* Revenue */}
-                <div className="border rounded-lg p-6 shadow-sm">
-                    <p className="text-gray-500">
-                        Total Revenue
-                    </p>
 
-                    <h2 className="mt-2 text-3xl font-bold">
-                        {stats.totalRevenue.toFixed(2)}
-                    </h2>
-                </div>
 
 
                 {/* provider application */}
-                <div onClick={() => router.push("/admin/provider-applications")} className="border rounded-lg p-6 shadow-sm ">
+                <div data-aos="zoom-out" data-aos-delay="1800" className="border rounded-lg p-6 shadow-sm ">
                     <p className="text-gray-500">
                         Total provider application
                     </p>
@@ -190,6 +199,7 @@ export default function AdminDashboardPage() {
 
                     <button
                         type="button"
+                        onClick={() => router.push("/admin/provider-applications")}
                         className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
                     >
                         go to applications <FaArrowRight size={18} />

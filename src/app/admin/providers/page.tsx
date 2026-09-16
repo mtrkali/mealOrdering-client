@@ -78,7 +78,7 @@ export default function AdminProvidersPage() {
 
             <button
                 type="button"
-                onClick={() => router.back()}
+                onClick={() => router.push("/admin/providers")}
                 className="mb-6 px-4 py-1 bg-green-500 text-white rounded hover:bg-gray-700"
             >
                 ← Back

@@ -100,9 +100,14 @@ export default function MyOrdersPage() {
                     </p>
                 </div>
 
-                <span className="text-gray-600">
-                    Total Orders: {orders.length}
-                </span>
+                <div className="flex flex-col gap-2">
+                    <span className="text-gray-600">
+                        Total Orders: {orders.length}
+                    </span>
+                    <button onClick={() => router.push("/beprovider")} className="px-4 py-2 rounded bg-amber-500 border">
+                        Be Provider
+                    </button>
+                </div>
             </div>
 
             {orders.length === 0 ? (

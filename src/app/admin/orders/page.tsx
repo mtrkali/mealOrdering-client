@@ -73,7 +73,7 @@ export default function AdminOrdersPage() {
             </p>
             <button
                 type="button"
-                onClick={() => router.back()}
+                onClick={() => router.push("/admin")}
                 className="mb-6 px-4 py-1 bg-green-500 text-white rounded hover:bg-gray-700"
             >
                 ← Back
@@ -109,9 +109,11 @@ export default function AdminOrdersPage() {
                     </thead>
 
                     <tbody>
-                        {orders.map((order) => (
+                        {orders.map((order, index) => (
                             <tr
                                 key={order.id}
+                                data-aos="fade-right"
+                                data-aos-delay={index * 300}
                                 className="cursor-pointer hover:bg-gray-50"
                             >
                                 <td className="border p-3">
