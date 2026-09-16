@@ -74,7 +74,18 @@ const updateMyProviderProfile = async (
     return response.data;
 }
 
+const deleteProvider = async (providerId: string) => {
+    const response = await axios.delete(
+        `${API_URL}/providers/${providerId}`,
+        {
+            withCredentials: true,
+        }
+    )
+    return response.data;
+}
+
 export const providerService = {
+    deleteProvider,
     getAllProviders,
     getSingleProvider,
     getProviderMeals,

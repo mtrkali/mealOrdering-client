@@ -97,7 +97,7 @@ export default function AdminUsersPage() {
             console.log("Failed to delete user: ", error);
 
             setActionError(
-                error?.response?.data?.message ||
+                error?.response?.data?.error ||
                 "Failed to delete user."
             );
         } finally {
