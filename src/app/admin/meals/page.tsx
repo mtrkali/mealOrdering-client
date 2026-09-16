@@ -143,15 +143,6 @@ export default function AdminMealsPage() {
     };
 
 
-    const handleDietaryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { value, checked } = e.target;
-        if (checked) {
-            setEditingMeal({})
-        } else {
-            setEditingMeal({})
-        }
-    }
-
     if (loading) {
         return (
             <main className="p-6">
