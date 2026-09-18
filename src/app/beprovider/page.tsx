@@ -4,6 +4,7 @@ import { providerAppService } from "@/services/providerApp.service";
 import { useAuth } from "@/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { orderService } from "@/services/order.service";
 
 export default function BeProviderPage() {
     const [loading, setLoading] = useState(false);
@@ -12,35 +13,51 @@ export default function BeProviderPage() {
     const [application, setApplication] = useState<any>(null);
     const [checkingApplication, setCheckingApplication] = useState(true);
 
+    const [hasOrders, setHasOrders] = useState(false);
+
     const router = useRouter();
     const { user, loading: authLoading } = useAuth();
 
+
+    const checkApplication = async () => {
+        try {
+            setCheckingApplication(true);
+
+            const result =
+                await providerAppService.getMyProviderApplication();
+            setApplication(result?.data || null)
+        } catch (error: any) {
+            console.log(
+                "Failed to check provider application:",
+                error
+            );
+
+            setError(
+                error?.response?.data?.message ||
+                "Failed to check application status."
+            );
+        } finally {
+            setCheckingApplication(false)
+        }
+    }
+
+    const checkUserOrders = async () => {
+        try {
+            const result = await orderService.getMyOrders();
+
+            const orders = result?.data || [];
+
+            setHasOrders(orders.length > 0);
+        } catch (error) {
+            console.log("Failed to check user orders:", error);
+        }
+    };
+
     useEffect(() => {
         if (authLoading || !user) return;
-
-        const checkApplication = async () => {
-            try {
-                setCheckingApplication(true);
-
-                const result =
-                    await providerAppService.getMyProviderApplication();
-                setApplication(result?.data || null)
-            } catch (error: any) {
-                console.log(
-                    "Failed to check provider application:",
-                    error
-                );
-
-                setError(
-                    error?.response?.data?.message ||
-                    "Failed to check application status."
-                );
-            } finally {
-                setCheckingApplication(false)
-            }
-        }
         checkApplication();
-    }, [authLoading, router])
+        checkUserOrders();
+    }, [authLoading, user])
 
 
 
@@ -48,13 +65,14 @@ export default function BeProviderPage() {
         event: React.FormEvent<HTMLFormElement>
     ) => {
         event.preventDefault();
+        const form = event.currentTarget;
 
         try {
             setLoading(true);
             setMessage("");
             setError("");
 
-            const formData = new FormData(event.currentTarget);
+            const formData = new FormData(form);
 
             const data = {
                 businessName: String(formData.get("businessName") || ""),
@@ -70,7 +88,8 @@ export default function BeProviderPage() {
                 "Your provider application has been submitted successfully!"
             );
 
-            event.currentTarget.reset();
+            form.reset();
+            await checkApplication();
         } catch (error: any) {
             console.log("Provider application error:", error);
 
@@ -131,7 +150,24 @@ export default function BeProviderPage() {
                     </div>
                 )}
 
-                {!application && (
+
+
+                {hasOrders && (
+                    <div className="mt-6 rounded-lg border p-4">
+                        <h2 className="text-xl font-semibold">
+                            Provider Application Unavailable
+                        </h2>
+
+                        <p className="mt-2 text-gray-600">
+                            You have some orders. You can't apply for a provider at this
+                            moment.
+                        </p>
+                    </div>
+                )}
+
+
+
+                {!application && !hasOrders && (
                     <form
                         onSubmit={handleSubmit}
                         className="mt-6 space-y-4"

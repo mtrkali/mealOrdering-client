@@ -34,7 +34,7 @@ export default async function ProviderProfile({
 
             </div>
 
-            <ReviewSection />
+            <ReviewSection meals={meals?.data || []} />
 
         </section>
     );

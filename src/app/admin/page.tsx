@@ -199,8 +199,6 @@ export default function AdminDashboardPage() {
 
                     <button
                         type="button"
-                        data-aos="fade-right"
-                        data-aos-delay="4000"
                         onClick={() => router.push("/admin/provider-applications")}
                         className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
                     >
