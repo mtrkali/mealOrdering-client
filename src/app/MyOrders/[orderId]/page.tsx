@@ -17,6 +17,7 @@ export default function OrderDetailsPage() {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState("");
 
+
     const [reviewingMealId, setReviewingMealId] = useState<string | null>(null);
     const [rating, setRating] = useState<number>(5);
     const [comment, setComment] = useState("");
@@ -65,6 +66,19 @@ export default function OrderDetailsPage() {
     }, [orderId])
 
 
+    const fetchMealReviews = async (mealId: string) => {
+        try {
+            const result = await reviewService.getMealReviews(mealId);
+
+            setMealReviews((prev) => ({
+                ...prev,
+                [mealId]: result.data?.reviews || [],
+            }));
+        } catch (error) {
+            console.log("Failed to fetch meal reviews:", error);
+        }
+    };
+
     const handleCreateReview = async () => {
         if (!reviewingMealId || !orderId) return;
         try {
@@ -83,6 +97,10 @@ export default function OrderDetailsPage() {
             setComment("");
             setRating(5);
             setReviewingMealId(null);
+
+            await order.items.forEach((item: any) => {
+                fetchMealReviews(item.mealId)
+            })
         } catch (error: any) {
             console.log("Failed to create review :", error);
 
@@ -95,18 +113,6 @@ export default function OrderDetailsPage() {
         }
     }
 
-    const fetchMealReviews = async (mealId: string) => {
-        try {
-            const result = await reviewService.getMealReviews(mealId);
-
-            setMealReviews((prev) => ({
-                ...prev,
-                [mealId]: result.data?.reviews || [],
-            }));
-        } catch (error) {
-            console.log("Failed to fetch meal reviews:", error);
-        }
-    };
 
     useEffect(() => {
         if (!order?.items) return;

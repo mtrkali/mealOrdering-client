@@ -11,6 +11,8 @@ export default function ReviewSection({ meals }: reviewSectionProps) {
     const [reviews, setReviews] = useState<any[]>([])
     const [loading, setLoading] = useState<boolean>(false);
 
+    const [averageRating, setAverageRating] = useState(0);
+
 
     const fetchReviews = async () => {
         try {
@@ -25,7 +27,16 @@ export default function ReviewSection({ meals }: reviewSectionProps) {
                 (result) => result.data?.reviews || []
             )
 
+            const average =
+                allReview.length > 0
+                    ? allReview.reduce(
+                        (sum, review) => sum + review.rating,
+                        0
+                    ) / allReview.length
+                    : 0;
+
             setReviews(allReview);
+            setAverageRating(average);
         } catch (error: any) {
             console.log("Failed to fetch provider review ", error)
         } finally {
@@ -45,6 +56,26 @@ export default function ReviewSection({ meals }: reviewSectionProps) {
             <h2 className="mb-6 text-2xl font-bold">
                 Customer Reviews
             </h2>
+
+            {!loading && reviews.length > 0 && (
+                <div className="mb-6 flex items-center gap-4">
+                    <div className="text-3xl font-bold">
+                        {averageRating.toFixed(1)}
+                    </div>
+
+                    <div>
+                        <div className="text-yellow-500">
+                            {"★".repeat(Math.round(averageRating))}
+                            {"☆".repeat(5 - Math.round(averageRating))}
+                        </div>
+
+                        <p className="text-sm text-gray-500">
+                            Based on {reviews.length} review
+                            {reviews.length !== 1 ? "s" : ""}
+                        </p>
+                    </div>
+                </div>
+            )}
 
             <div className="rounded-2xl border bg-white p-6">
 
