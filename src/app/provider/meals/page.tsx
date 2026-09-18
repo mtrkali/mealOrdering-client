@@ -412,8 +412,8 @@ export default function ProviderMealsPage() {
                     You have no meals yet.
                 </p>
             ) : (
-                <div className="mt-6 overflow-x-auto">
-                    <table className="w-full border-collapse border">
+                <div className={`${showCreateForm || edditingMeal ? "opacity-0 blur-xl" : "mt-6 overflow-x-auto"}`}>
+                    <table className="w-full border-collapse border rounded">
                         <thead>
                             <tr className="bg-blue-500 text-white">
                                 <th className="border p-3 text-left">
