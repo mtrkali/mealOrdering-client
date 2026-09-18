@@ -11,6 +11,7 @@ type DashboardStats = {
     totalProviders: number;
     totalRevenue: number;
     totalApplicantProvider: number;
+    totalCategory: number;
 }
 
 export default function AdminDashboardPage() {
@@ -22,6 +23,7 @@ export default function AdminDashboardPage() {
         totalProviders: 0,
         totalApplicantProvider: 0,
         totalRevenue: 0,
+        totalCategory: 0,
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
@@ -209,11 +211,11 @@ export default function AdminDashboardPage() {
                 {/* category mangement */}
                 <div data-aos="zoom-out" data-aos-delay="2200" className="border rounded-lg p-6 shadow-sm ">
                     <p className="text-gray-500">
-                        Total provider application
+                        Categroy management
                     </p>
 
                     <h2 className="mt-2 text-3xl font-bold">
-                        {stats.totalApplicantProvider}
+                        {stats.totalCategory}
                     </h2>
 
                     <button
