@@ -147,7 +147,7 @@ export default function AdminOrderDetailsPage() {
     }
 
     return (
-        <main data-aos="zoom-in" className="max-w-6xl mx-auto px-4 py-8">
+        <main className="max-w-6xl mx-auto px-4 py-8">
             <button
                 type="button"
                 onClick={() => router.back()}
