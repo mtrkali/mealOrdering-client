@@ -85,7 +85,7 @@ export default function CheckoutPage() {
     }
 
     return (
-        <main className="max-w-6xl mx-auto px-4 py-8">
+        <main className="bg-white/80 text-black px-4 py-8">
             <h1 className="text-3xl font-bold mb-8">
                 Checkout
             </h1>
@@ -93,7 +93,7 @@ export default function CheckoutPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
                 {/* Customer Information */}
-                <div className="lg:col-span-2 border rounded-lg p-6">
+                <div className="lg:col-span-2 bg-white text-black rounded-lg p-6">
                     <h2 className="text-xl font-bold mb-6">
                         Customer Information
                     </h2>
@@ -177,7 +177,7 @@ export default function CheckoutPage() {
                 </div>
 
                 {/* Order Summary */}
-                <div className="border rounded-lg p-6 h-fit">
+                <div className="bg-white text-black rounded-lg p-6 h-fit">
                     <h2 className="text-xl font-bold mb-5">
                         Order Summary
                     </h2>

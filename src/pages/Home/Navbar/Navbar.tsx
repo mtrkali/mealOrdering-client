@@ -17,9 +17,9 @@ export default function Navbar() {
     if (loading) return <NavbarSkeleton />
 
     return (
-        <div className="relative">
-            <nav className="sticky mb-5 inset-0 top-0 z-50 border-b shadow-sm rounded-full">
-                <div className="mx-auto flex h-12 md:h-14 max-w-7xl items-center justify-between px-2 lg:px-2">
+        <div className="relative bg-white text-black">
+            <nav className="sticky inset-0 top-0 z-50 shadow-xl">
+                <div className="mx-auto flex h-16 md:h-14 max-w-7xl items-center justify-between px-2 lg:px-2">
                     {/* Logo */}
                     <Link href="/" className="text-2xl font-bold text-green-600 flex items-center gap-1">
                         <Image

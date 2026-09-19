@@ -26,7 +26,7 @@ export default function CartPage() {
 
 
     return (
-        <main className="max-w-6xl mx-auto px-4 py-8">
+        <main className="px-4 py-8 bg-white/80 min-h-screen text-black">
             <div className="flex items-center justify-between mb-6">
                 <h1 className="text-3xl font-bold">
                     My Cart
@@ -60,7 +60,7 @@ export default function CartPage() {
                             return (
                                 <div
                                     key={item.id}
-                                    className="border rounded-lg p-4 flex items-center justify-between gap-4"
+                                    className="rounded-lg p-4 flex items-center justify-between gap-4 bg-white text-black shadow-xl"
                                 >
                                     {/* Meal Info */}
                                     <div className="flex items-center gap-4">
@@ -125,7 +125,7 @@ export default function CartPage() {
                     </div>
 
                     {/* Order Summary */}
-                    <div className="border rounded-lg p-6 h-fit">
+                    <div className="bg-white text-black rounded-lg p-6 h-fit">
                         <h2 className="text-xl font-bold mb-5">
                             Order Summary
                         </h2>
