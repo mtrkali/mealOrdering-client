@@ -115,7 +115,7 @@ export default function AdminDashboardPage() {
                         data-aos-delay="2000"
                         type="button"
                         onClick={() => router.push("/admin/users")}
-                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-black/80 rounded hover:bg-gray-700"
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center px-4 py-2 bg-blue-900 text-black/80 rounded hover:bg-gray-700"
                     >
                         go to users <FaArrowRight size={18} />
                     </button>
@@ -136,7 +136,7 @@ export default function AdminDashboardPage() {
                         data-aos="fade-right"
                         data-aos-delay="2500"
                         onClick={() => router.push("/admin/orders")}
-                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-black/80 rounded hover:bg-gray-700"
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center px-4 py-2 bg-blue-900 text-black/80 rounded hover:bg-gray-700"
                     >
                         go to orders <FaArrowRight size={18} />
                     </button>
@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
                         data-aos="fade-right"
                         data-aos-delay="3000"
                         onClick={() => router.push("/admin/providers")}
-                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-black/80 rounded hover:bg-gray-700"
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center px-4 py-2 bg-blue-900 text-black/80 rounded hover:bg-gray-700"
                     >
                         go to providers <FaArrowRight size={18} />
                     </button>
@@ -180,7 +180,7 @@ export default function AdminDashboardPage() {
                         data-aos="fade-right"
                         data-aos-delay="3500"
                         onClick={() => router.push("/admin/meals")}
-                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-black/80 rounded hover:bg-gray-700"
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center px-4 py-2 bg-blue-900 text-black/80 rounded hover:bg-gray-700"
                     >
                         go to meals <FaArrowRight size={18} />
                     </button>
@@ -202,7 +202,7 @@ export default function AdminDashboardPage() {
                     <button
                         type="button"
                         onClick={() => router.push("/admin/provider-applications")}
-                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-black/80 rounded hover:bg-gray-700"
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center px-4 py-2 bg-blue-900 text-black/80 rounded hover:bg-gray-700"
                     >
                         go to applications <FaArrowRight size={18} />
                     </button>
@@ -221,7 +221,7 @@ export default function AdminDashboardPage() {
                     <button
                         type="button"
                         onClick={() => router.push("/admin/category")}
-                        className="mt-4 hover:scale-105 transition flex gap-1 items-center border px-4 py-2 bg-gray-600 text-black/80 rounded hover:bg-gray-700"
+                        className="mt-4 hover:scale-105 transition flex gap-1 items-center px-4 py-2 bg-blue-900 text-black/80 rounded hover:bg-gray-700"
                     >
                         go to category <FaArrowRight size={18} />
                     </button>
