@@ -88,7 +88,7 @@ export default function MyOrdersPage() {
 
 
     return (
-        <main className="max-w-6xl mx-auto px-4 py-8">
+        <main className="min-h-screen bg-white/80 text-black/90 mx-auto px-4 py-8">
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h1 className="text-3xl font-bold">
@@ -104,7 +104,7 @@ export default function MyOrdersPage() {
                     <span className="text-gray-600">
                         Total Orders: {orders.length}
                     </span>
-                    <button onClick={() => router.push("/beprovider")} className="px-4 py-2 rounded bg-amber-500 border">
+                    <button onClick={() => router.push("/beprovider")} className="px-4 py-2 rounded bg-amber-500 hover:font-semibold transition">
                         Be Provider
                     </button>
                 </div>
@@ -121,7 +121,7 @@ export default function MyOrdersPage() {
                     {orders.map((order: any) => (
                         <div
                             key={order.id}
-                            className="border rounded-xl p-6 shadow-sm"
+                            className="shadow-xl rounded-xl p-6 shadow-sm bg-white"
                         >
                             {/* Order Header */}
                             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b pb-4">

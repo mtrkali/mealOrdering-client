@@ -160,8 +160,8 @@ export default function AdminMealsPage() {
     }
 
     return (
-        <main className="p-4 md:p-6 relative">
-            <div className="max-w-7xl mx-auto">
+        <main className="p-4 md:p-6 relative bg-white/80 text-black/90">
+            <div className="min-h-screen mx-auto">
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-2xl md:text-3xl font-bold">
@@ -188,7 +188,7 @@ export default function AdminMealsPage() {
                         </p>
                     </div>
                 ) : (
-                    <div className={`${editingMeal ? "opacity-0" : "overflow-x-auto rounded-xl border bg-white"}`}>
+                    <div className={`${editingMeal ? "opacity-0" : "overflow-x-auto rounded-xl bg-white p-5"}`}>
                         <table className="w-full min-w-[1000px]">
                             <thead className="border-b text-black">
                                 <tr>
@@ -224,7 +224,7 @@ export default function AdminMealsPage() {
 
                             <tbody className="divide-y text-black">
                                 {meals.map((meal) => (
-                                    <tr key={meal.id} className="hover:scale-102 border rounded transition">
+                                    <tr key={meal.id} className="hover:scale-101  rounded transition-transform">
                                         {/* Meal */}
                                         <td className="px-4 py-4">
                                             <div className="flex items-center gap-3">
@@ -357,7 +357,7 @@ export default function AdminMealsPage() {
 
 
             {editingMeal && (
-                <div className="fixed inset-0 z-50 absolute flex items-center justify-center text-black px-4">
+                <div className=" inset-0 z-50 absolute flex items-center justify-center text-black px-4">
                     <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
                         <div className="mb-5 flex items-center justify-between">
                             <h2 className="text-xl font-bold">

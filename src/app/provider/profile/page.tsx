@@ -154,7 +154,7 @@ export default function ProviderProfilePage() {
     }
 
     return (
-        <main className="max-w-4xl mx-auto px-4 py-8">
+        <main className="mx-auto px-4 py-8 min-h-screen  bg-white/80 text-black">
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h1 className="text-3xl font-bold">
@@ -192,7 +192,9 @@ export default function ProviderProfilePage() {
                 </p>
             )}
 
-            <div className="border rounded-xl p-6 shadow-sm space-y-6">
+            <div className="border relative rounded-xl p-8 shadow-sm space-y-6 bg-white text-black/90">
+                {editing &&
+                    <div onClick={() => setEditing(false)} className="absolute bg-red-500 text-white px-3 py-2 rounded-lg top-1 right-1 hover:font-semibold cursor-pointer">X</div>}
                 {/* Business Name */}
                 <div>
                     <label className="block text-sm font-medium mb-2">

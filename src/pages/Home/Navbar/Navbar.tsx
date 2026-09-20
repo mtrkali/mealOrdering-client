@@ -46,7 +46,7 @@ export default function Navbar() {
                 </div>
 
                 {/* Mobile Menu */}
-                <MobileMenu user={user} open={open} />
+                <MobileMenu user={user} open={open} setOpen={() => setOpen(false)} />
             </nav>
         </div>
     );

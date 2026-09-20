@@ -10,7 +10,7 @@ export default function FoodHubHero() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-orange-50 flex items-center justify-center px-6">
+    <div data-aos="zoom-in" className="min-h-screen bg-gradient-to-br from-violet-50 via-white to-orange-50 flex items-center justify-center px-6">
       <div className="max-w-6xl w-full grid md:grid-cols-2 gap-10 items-center">
         {/* LEFT CONTENT */}
         <div

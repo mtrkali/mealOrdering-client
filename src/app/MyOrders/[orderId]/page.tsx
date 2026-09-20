@@ -163,7 +163,7 @@ export default function OrderDetailsPage() {
         )
     }
     return (
-        <main className="max-w-6xl mx-auto px-4 py-8">
+        <main className="min-h-screen bg-white/80 text-black/90 mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold">
                 Order Details
             </h1>
@@ -179,7 +179,7 @@ export default function OrderDetailsPage() {
             <div className="mt-6 space-y-6">
 
                 {/* Order Summary */}
-                <div className="border p-6 rounded-lg">
+                <div className="bg-white p-6 rounded-lg">
                     <h2 className="text-xl font-semibold mb-4">
                         Order Summary
                     </h2>
@@ -213,7 +213,7 @@ export default function OrderDetailsPage() {
                 </div>
 
                 {/* Customer Information */}
-                <div className="border p-6 rounded-lg">
+                <div className="bg-white p-6 rounded-lg">
                     <h2 className="text-xl font-semibold mb-4">
                         Customer Information
                     </h2>
@@ -246,7 +246,7 @@ export default function OrderDetailsPage() {
                         {order.items?.map((item: any) => (
                             <div
                                 key={item.id}
-                                className="border rounded-lg p-4 flex gap-4"
+                                className="bg-white rounded-lg p-4 flex gap-4"
                             >
                                 {item.meal?.image && (
                                     <img

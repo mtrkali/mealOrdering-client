@@ -221,7 +221,7 @@ export default function ProviderMealsPage() {
     }
 
     return (
-        <main className="max-w-6xl mx-auto px-4 py-8">
+        <main className="min-h-screen bg-white/80 text-black mx-auto px-4 py-8">
             <div className="flex items-center justify-between">
                 <h1 className="text-3xl font-bold">
                     My Meals
@@ -244,7 +244,7 @@ export default function ProviderMealsPage() {
             <button
                 type="button"
                 onClick={() => router.back()}
-                className="mt-4 px-4 py-2 bg-gray-600 text-white rounded hover:bg-gray-700"
+                className="mt-4 px-4 py-2 bg-blue-900 text-white rounded hover:bg-gray-700"
             >
                 ← Back to dashboard
             </button>
@@ -252,7 +252,7 @@ export default function ProviderMealsPage() {
 
             {/* create Form */}
             {showCreateForm && (
-                <div className="border rounded-lg mt-6 p-6">
+                <div className="border rounded-lg mt-6 p-6 bg-white text-black/90">
                     <h2 className="text-xl font-bold">Create new Meal</h2>
                     <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                         {/* title */}
@@ -297,9 +297,9 @@ export default function ProviderMealsPage() {
                                 }
                                 className="mt-1 border rounded w-full px-3 py-2"
                             >
-                                <option className="bg-black" value="">select category</option>
+                                <option value="">select category</option>
                                 {categories.map(cat => (
-                                    <option key={cat.id} className="bg-black" value={cat.id}>{cat.name}</option>
+                                    <option key={cat.id} value={cat.id}>{cat.name}</option>
                                 ))}
                             </select>
                         </div>
@@ -332,7 +332,7 @@ export default function ProviderMealsPage() {
                                 className="mt-1 border rounded w-full px-3 py-2"
                             >
                                 {cuisines.map((cuisine, index) => (
-                                    <option key={index} value={cuisine} className="bg-black">{cuisine}</option>
+                                    <option key={index} value={cuisine} >{cuisine}</option>
                                 ))}
                             </select>
                         </div>
@@ -413,7 +413,7 @@ export default function ProviderMealsPage() {
                 </p>
             ) : (
                 <div className={`${showCreateForm || edditingMeal ? "opacity-0 blur-xl" : "mt-6 overflow-x-auto"}`}>
-                    <table className="w-full border-collapse border rounded">
+                    <table className="w-full border-collapse border rounded bg-white text-black/90 ">
                         <thead>
                             <tr className="bg-blue-500 text-white">
                                 <th className="border p-3 text-left">
@@ -502,7 +502,7 @@ export default function ProviderMealsPage() {
 
 
             {edditingMeal && (
-                <div className="fixed inset-0 z-50 flex justify-center items-center p-4">
+                <div className="fixed inset-0 z-50 flex justify-center items-center p-4 bg-white text-black/90">
                     <div className="rounded-lg max-w-lg w-full p-6 border">
                         <h2 className="text-2xl font-bold">
                             Edit Meal
@@ -562,7 +562,7 @@ export default function ProviderMealsPage() {
                                 className="mt-1 border rounded w-full px-3 py-2"
                             >
                                 {cuisines.map((cuisine, index) => (
-                                    <option key={index} value={cuisine} className="bg-black">{cuisine}</option>
+                                    <option key={index} value={cuisine} >{cuisine}</option>
                                 ))}
                             </select>
                         </div>
@@ -578,9 +578,9 @@ export default function ProviderMealsPage() {
                                 }
                                 className="mt-1 border rounded w-full px-3 py-2"
                             >
-                                <option className="bg-black" value="">select category</option>
+                                <option value="">select category</option>
                                 {categories.map(cat => (
-                                    <option key={cat.id} className="bg-black" value={cat.id}>{cat.name}</option>
+                                    <option key={cat.id} value={cat.id}>{cat.name}</option>
                                 ))}
                             </select>
                         </div>

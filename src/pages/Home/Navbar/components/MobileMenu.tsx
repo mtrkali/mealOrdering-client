@@ -1,11 +1,22 @@
 
 
+import useClickOutside from "@/hooks/useClickOutside";
 import { LayoutDashboard, HomeIcon, ShoppingCart, UserIcon, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
+import { useRef } from "react";
+import useLogout from "./fuction";
 
-export default function MobileMenu({ user, open }: { user: any, open: boolean }) {
+export default function MobileMenu({ user, open, setOpen }: { user: any; open: boolean; setOpen: () => void }) {
+    const { loading, logout } = useLogout();
+    const searchRef = useRef<HTMLDivElement>(null);
+
+    useClickOutside(searchRef, () => {
+        setOpen();
+    });
+
+
     return (
-        <div className={`absolute rounded-lg top-12 bg-black/80 right-0 overflow-hidden transition-all z-50 duration-100 
+        <div ref={searchRef} className={`absolute border rounded-lg top-12 bg-white text-black/80 right-0 overflow-hidden transition-all z-50 duration-100 
         ${open
                 ? 'max-h-[450px] opacity-100' : 'max-h-0 opacity-0'
             }`}>
@@ -69,8 +80,8 @@ export default function MobileMenu({ user, open }: { user: any, open: boolean })
                             <p className="text-sm text-gray-500">{user?.role}</p>
                         </div>
 
-                        <button className="mt-3 w-full rounded-lg bg-red-500 py-3 text-white">
-                            Logout
+                        <button onClick={logout} className="mt-3 w-full rounded-lg bg-red-500 py-3 text-white">
+                            {loading ? "logout..." : "logout"}
                         </button>
                     </>
                 )}

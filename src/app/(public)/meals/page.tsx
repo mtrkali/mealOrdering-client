@@ -8,6 +8,7 @@ import PublicMealsSkeleton from "./components/PublicMealsSkeleton";
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import useClickOutside from "@/hooks/useClickOutside";
 
 
 export default function PublicMeals() {
@@ -23,9 +24,9 @@ export default function PublicMeals() {
   const [paramslength, setParamslength] = useState(0);
 
 
-  // const searchRef = useRef<HTMLDivElement>(null);
-  // UseCLickOutside(searchRef, () => { setCLickSearchFilter(false) })
+  const popupRef = useRef<HTMLDivElement>(null);
 
+  useClickOutside(popupRef, () => { setSearchOpen(false) })
 
   const fetchMeals = async () => {
     try {
@@ -62,7 +63,7 @@ export default function PublicMeals() {
   if (loading) return <PublicMealsSkeleton />
   return (
     <div className="relative bg-white/80 p-4 min-h-screen">
-      <div className="relative h-10 flex items-center">
+      <div ref={popupRef} className="relative h-10 flex items-center">
         {/* ref={searchRef} */}
         <button
           className="bg-green-500 flex items-center justify-between w-50 absolute bottom-0 right-2 px-4 py-2 hover:scale-105 transition-transform duration-400 rounded text-center mt-3 block mx-auto"

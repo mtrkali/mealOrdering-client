@@ -182,6 +182,7 @@ export default function AdminUsersPage() {
 
                     <tbody>
                         {users.map((user) => (
+                            user.role !== "ADMIN" &&
                             <tr key={user.id}>
                                 <td className="border p-3">
                                     {user.name}
@@ -208,7 +209,7 @@ export default function AdminUsersPage() {
                                         disabled={updatingUserId === user.id || currentUser?.id === user.id}
                                         className={`px-3 py-1 rounded text-white ${user.status === "INACTIVE"
                                             ? "bg-green-500 hover:bg-green-600"
-                                            : "bg-red-500 hover:bg-red-600"
+                                            : "bg-yellow-500 hover:scale-102"
                                             } ${updatingUserId === user.id || currentUser?.id === user.id
                                                 ? "cursor-not-allowed bg-gray-400"
                                                 : ""

@@ -114,19 +114,19 @@ export default function BeProviderPage() {
     }
 
     return (
-        <main className="min-h-screen flex items-center justify-center p-6">
-            <div className="w-full max-w-xl border rounded-xl p-6">
+        <main className="min-h-screen flex items-center justify-center p-6 bg-white/80 text-black/90">
+            <div className="w-full max-w-xl rounded-xl p-6 bg-blue-100">
                 <h1 className="text-2xl font-bold">
                     Become a Provider
                 </h1>
 
-                <p className="mt-2 text-gray-600">
+                <p className="mt-2">
                     Submit your business information to become a FoodHub
                     provider.
                 </p>
 
                 {application?.status === "PENDING" && (
-                    <div className="mt-6 rounded-lg border p-4">
+                    <div className="mt-6 rounded-lg bg-white p-4">
                         <h2 className="text-xl font-semibold">
                             Application Pending
                         </h2>
@@ -139,7 +139,7 @@ export default function BeProviderPage() {
                 )}
 
                 {application?.status === "APPROVED" && (
-                    <div className="mt-6 rounded-lg border p-4">
+                    <div className="mt-6 rounded-lg bg-white p-4">
                         <h2 className="text-xl font-semibold">
                             You are already a Provider
                         </h2>
@@ -153,7 +153,7 @@ export default function BeProviderPage() {
 
 
                 {hasOrders && (
-                    <div className="mt-6 rounded-lg border p-4">
+                    <div className="mt-6 rounded-lg bg-white p-4">
                         <h2 className="text-xl font-semibold">
                             Provider Application Unavailable
                         </h2>

@@ -1,14 +1,13 @@
 
-import { useAuth } from "@/context/AuthContext";
-import { authClient } from "@/lib/auth-client";
+
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import useLogout from "./fuction";
+
 
 export default function RightSide({ user }: { user: any }) {
     const router = useRouter();
-    const { user: authUser, setUser } = useAuth() || {};
-    const [loading, setLoading] = useState(false);
+    const { loading, logout } = useLogout();
     return (
         <div className="hidden md:flex items-center gap-4">
             {!user ? (
@@ -40,31 +39,15 @@ export default function RightSide({ user }: { user: any }) {
                     </button>
 
                     {/* Dropdown */}
-                    <div className="absolute bg-black right-0 hidden w-48 rounded-xl shadow-lg group-hover:block">
-                        <button onClick={() => router.push("/profile")} className="w-full px-4 py-3 text-left hover:bg-green-700 rounded rounded">
+                    <div className="absolute bg-white text-black right-0 hidden w-48 rounded-xl shadow-lg group-hover:block">
+                        <button onClick={() => router.push("/profile")} className="w-full px-4 py-3 text-left hover:bg-blue-100 rounded rounded">
                             Profile
                         </button>
 
                         <button
                             disabled={loading}
-                            onClick={async () => {
-                                try {
-                                    setLoading(true);
-                                    await authClient.signOut({
-                                        fetchOptions: {
-                                            onSuccess: () => {
-                                                setUser(null);
-                                                router.push("/login");
-                                            }
-                                        }
-                                    })
-                                } catch (error: any) {
-                                    console.log("logout failed!!", error)
-                                } finally {
-                                    setLoading(false);
-                                }
-                            }}
-                            className="w-full px-4 py-3 text-left text-red-600 hover:bg-green-700 rounded"
+                            onClick={logout}
+                            className="w-full px-4 py-3 text-left text-red-600 hover:bg-blue-100 rounded"
                         >
                             {loading ? "logout..." : "logout"}
                         </button>
