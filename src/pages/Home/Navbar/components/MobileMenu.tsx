@@ -4,7 +4,7 @@ import useClickOutside from "@/hooks/useClickOutside";
 import { LayoutDashboard, HomeIcon, ShoppingCart, UserIcon, UtensilsCrossed } from "lucide-react";
 import Link from "next/link";
 import { useRef } from "react";
-import useLogout from "../hooks/logout";
+import useLogout from "../../../../hooks/logout";
 
 export default function MobileMenu({ user, open, setOpen }: { user: any; open: boolean; setOpen: () => void }) {
     const { loading, logout } = useLogout();
