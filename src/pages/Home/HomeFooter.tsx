@@ -7,7 +7,6 @@ import {
     FaFacebook,
     FaGithub,
     FaInstagram,
-    FaTwiter,
 } from "react-icons/fa"
 export default function HomeFooter() {
     return (

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import useLogout from "./fuction";
+import useLogout from "../hooks/logout";
 
 
 export default function RightSide({ user }: { user: any }) {
