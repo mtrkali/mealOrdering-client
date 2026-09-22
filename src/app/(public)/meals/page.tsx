@@ -5,14 +5,16 @@ import { useEffect, useRef, useState } from "react";
 import { IoChevronDown } from "react-icons/io5";
 import MealSearchForm from "./components/MealSerchForoms";
 import PublicMealsSkeleton from "./components/PublicMealsSkeleton";
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useClickOutside from "@/hooks/useClickOutside";
+import { useCart } from "@/context/CartContext";
 
 
 export default function PublicMeals() {
   const router = useRouter();
+  const { cart } = useCart();
+  const cartProviderId = cart[0]?.providerId;
 
   const [meals, setMeals] = useState<any[]>([]);
   const [minPrice, setMinPrice] = useState<string>("");
@@ -39,6 +41,7 @@ export default function PublicMeals() {
       if (cuisine) params.append("cuisine", cuisine);
 
       dietary.forEach((item) => params.append("dietary", item));
+      if (cartProviderId) { params.append("providerId", cartProviderId) }
 
       setParamslength(params.size);
       const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1/meals?${params}`,
@@ -58,7 +61,7 @@ export default function PublicMeals() {
 
   useEffect(() => {
     fetchMeals();
-  }, []);
+  }, [cartProviderId]);
 
   if (loading) return <PublicMealsSkeleton />
   return (

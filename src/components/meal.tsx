@@ -7,6 +7,8 @@ import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import { Meal as MealType } from "@/types/Meal";
 import { useState } from "react";
+import { isValidImageUrl } from "@/app/utills/functions";
+
 
 interface MealProps {
   meal: MealType;
@@ -34,22 +36,11 @@ export default function Meal({ meal, index }: MealProps) {
       title: meal.title,
       image: meal.image,
       price: meal.price,
+      providerId: meal.provider?.id ?? "",
     })
     alert("Added to cart!")
   };
 
-  const isValidImageUrl = (url: string) => {
-    try {
-      const parsedUrl = new URL(url);
-
-      return (
-        parsedUrl.protocol === "http:" ||
-        parsedUrl.protocol === "https:"
-      );
-    } catch {
-      return false;
-    }
-  }
 
   return (
     <div data-aos="fade-up" data-aos-delay={index * 150} className="max-w-sm rounded-2xl overflow-hidden shadow-lg border border-gray-200 bg-white  hover:scale-102 transition duration-300">

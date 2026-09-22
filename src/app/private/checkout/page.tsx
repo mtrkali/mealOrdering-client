@@ -3,12 +3,20 @@
 import { useCart } from "@/context/CartContext";
 import { orderService } from "@/services/order.service";
 import { useState } from "react";
+import {
+    FENI_LOCATIONS,
+    FENI_WARDS,
+} from "@/constants/feniLocation";
+
 
 export default function CheckoutPage() {
     const { cart, clearCart } = useCart();
     const [formData, setFormData] = useState({
         name: "",
         phone: "",
+        subdistrict: "",
+        union: "",
+        ward: "",
         address: "",
     })
     const [error, setError] = useState("");
@@ -24,27 +32,45 @@ export default function CheckoutPage() {
         0
     );
 
+
+    const selectedSubdistrict = FENI_LOCATIONS.find(
+        (location) => location.name === formData.subdistrict
+    );
+
+    const availAbleUnion = selectedSubdistrict?.unions ?? []
+
     const handlePlaceOrder = async () => {
         setError("");
 
-        if (!formData.name.trim()) {
-            setError("Please enter your name");
+        if (!formData.subdistrict) {
+            setError("Please select your subdistrict");
             return;
         }
 
-        if (!formData.phone.trim()) {
-            setError("please enter your phone number");
+        if (!formData.union) {
+            setError("Please select your union");
+            return;
+        }
+
+        if (!formData.ward) {
+            setError("Please select your ward");
             return;
         }
 
         if (!formData.address.trim()) {
-            setError("Please enter your delivery address.");
+            setError("Please enter your house, road or village address");
             return;
         }
         setLoading(true)
+        const fullAddress = [
+            formData.subdistrict,
+            formData.union,
+            formData.ward,
+            formData.address.trim(),
+        ].join(", ")
         try {
             const payload = {
-                address: formData.address.trim(),
+                address: fullAddress,
                 items: cart.map((item) => ({
                     mealId: item.id,
                     quantity: item.quantity,
@@ -144,25 +170,110 @@ export default function CheckoutPage() {
                             />
                         </div>
 
-                        {/* Address */}
-                        <div>
-                            <label className="block text-sm font-medium mb-2">
-                                Delivery Address
-                            </label>
+                        {/*Delivery  Address */}
+                        <div className="space-y-4">
+                            <div>
+                                <h3 className="text-lg font-semibold">Delivery address</h3>
 
-                            <textarea
-                                rows={4}
-                                value={formData.address}
-                                onChange={(e) =>
-                                    setFormData({
-                                        ...formData,
-                                        address: e.target.value,
-                                    })
-                                }
-                                placeholder="Enter your delivery address"
-                                className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
-                            />
+                                <p className="mt-1 text-sm">Select your location to provider your delivery address</p>
+                            </div>
+
+                            {/* SubDistrict */}
+                            <div>
+                                <label htmlFor="" className="mb-2 block text-sm font-medium">SubDistrict</label>
+
+                                <select
+                                    value={formData.subdistrict}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            subdistrict: e.target.value,
+                                            union: "",
+                                            ward: "",
+                                        })
+                                    }
+                                    className="w-full rounded-lg border px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                                >
+                                    <option value="">selectSubDistrict</option>
+                                    {
+                                        FENI_LOCATIONS.map((location) => (
+                                            <option key={location.name} value={location.name}>{location.name}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+
+                            {/* union */}
+                            <div>
+                                <label htmlFor="" className="mb-2 block text-sm font-medium">Union</label>
+
+                                <select
+                                    value={formData.union}
+                                    disabled={!formData.subdistrict}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            union: e.target.value,
+                                            ward: "",
+                                        })
+                                    }
+                                    className="w-full rounded-lg border px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                                >
+                                    <option value="">select union</option>
+                                    {
+                                        availAbleUnion.map((union) => (
+                                            <option key={union} value={union}>{union}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+
+                            {/* ward */}
+                            <div>
+                                <label htmlFor="" className="mb-2 block text-sm font-medium">Union</label>
+
+                                <select
+                                    value={formData.ward}
+                                    disabled={!formData.union}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            ward: e.target.value,
+                                        })
+                                    }
+                                    className="w-full rounded-lg border px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                                >
+                                    <option value="">select ward</option>
+                                    {
+                                        FENI_WARDS.map((word) => (
+                                            <option key={word} value={word}>{word}</option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
+
+                            {/* Additional Address */}
+                            <div>
+                                <label htmlFor="" className="mb-2 block text-sm font-medium">Additional address</label>
+
+                                <textarea
+                                    rows={3}
+                                    value={formData.address}
+                                    onChange={(e) =>
+                                        setFormData({
+                                            ...formData,
+                                            address: e.target.value,
+                                        })
+                                    }
+                                    placeholder="House, road, Village, LandMark etc."
+                                    className="w-full rounded-lg border px-4 py-3 focus:ring-2 focus:ring-blue-500 outline-none"
+                                />
+                            </div>
                         </div>
+
+
+
+
 
                         {/* Place Order */}
                         <button

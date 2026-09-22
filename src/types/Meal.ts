@@ -13,6 +13,7 @@ export interface Meal {
     };
 
     provider?: {
+        id: string;
         businessName: string;
     };
 }

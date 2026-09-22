@@ -7,6 +7,7 @@ type CartItem = {
     title: string;
     image: string;
     price: number;
+    providerId: string;
     quantity: number;
 }
 
@@ -48,6 +49,13 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     // add meal to cart 
     const addToCart = (meal: Omit<CartItem, "quantity">) => {
         setCart((prev) => {
+            // if cart already contains meal from another provider
+            if (prev.length > 0 &&
+                prev[0].providerId !== meal.providerId
+            ) {
+                alert("you can only order meals from one provider at a time.")
+                return prev;
+            }
             const exists = prev.find((item) => item.id === meal.id); // prev array er modde mealid jukto kono obj ace kina
 
             if (exists) {
