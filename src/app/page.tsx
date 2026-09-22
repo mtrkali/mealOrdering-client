@@ -1,3 +1,4 @@
+import ScrollTop from "@/components/scrollToTop";
 import CTASection from "@/pages/Home/CTASection";
 import CustomerReviews from "@/pages/Home/CustomerReviews";
 import FoodHubHero from "@/pages/Home/FoodHubHero";
@@ -25,6 +26,8 @@ export default function Home() {
       <CTASection />
 
       <HomeFooter />
+
+      <ScrollTop />
     </div>
   );
 }
